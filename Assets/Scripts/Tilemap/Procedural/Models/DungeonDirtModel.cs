@@ -22,8 +22,15 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 	 * Requires the DungeonDirt prefab object,
 	 * and the TileManager's RNG object.
 	 */
-	public DungeonDirtModel(tk2dSprite prefab, System.Random rand) {
-		this.prefab = prefab;
+	public DungeonDirtModel(TilePrefabContainer prefabContainer, System.Random rand) {
+		int prefabIndex = 0;
+		for(int x = 0; x < prefabContainer.prefabNames.Length; x++) {
+			if(prefabContainer.prefabNames[x] == SPRITESHEETNAME) {
+				prefabIndex = x;
+				x = prefabContainer.prefabNames.Length;
+			}
+		}
+		
 		this.rand = rand;
 		
 		//sprite ids are hardcoded for this test class.

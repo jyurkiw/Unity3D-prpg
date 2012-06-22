@@ -30,7 +30,7 @@ public class DrawManager : TilemapComponent {
 	 * Return the tile at the given indicies.
 	 */
 	public GameObject getTile(int x, int y) {
-		return tilemap.map[x][y];
+		return tilemap.map[x, y];
 	}
 	
 	/*
@@ -39,7 +39,7 @@ public class DrawManager : TilemapComponent {
 	 * doesn't opt-out next frame.
 	 */
 	public void setTile(int x, int y, GameObject tile) {
-		tilemap.map[x][y] = tile;
+		tilemap.map[x, y] = tile;
 		tilesAreDirty = true;
 	}
 	
@@ -61,8 +61,8 @@ public class DrawManager : TilemapComponent {
 		if (tilesAreDirty) {
 			for (int y = 0; y < tilemap.mapHeight; y++) {
 				for (int x = 0; x < tilemap.mapWidth; x++) {
-					if (tilemap.map[x][y] is GameObject) {
-						tilemap.map[x][y].transform.localPosition = new Vector3(x * tileSize, y * tileSize, 0);
+					if (tilemap.map[x, y] is GameObject) {
+						tilemap.map[x, y].transform.localPosition = new Vector3(x * tileSize, y * tileSize, 0);
 					}
 				}
 			}

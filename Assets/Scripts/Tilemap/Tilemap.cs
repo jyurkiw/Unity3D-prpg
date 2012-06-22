@@ -10,7 +10,7 @@ public class Tilemap : MonoBehaviour {
 	/**
 	 * The tilemap workspace.
 	 */
-	public GameObject[][] map;
+	public GameObject[,] map;
 	
 	/**
 	 * The height of the map.

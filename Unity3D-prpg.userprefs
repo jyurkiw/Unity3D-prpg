@@ -1,14 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Tilemap\Procedural\Models\DungeonDirtModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Tilemap\Procedural\Algorithms\BasicDungeonLevelGenerator.cs">
     <Files>
-      <File FileName="Assets\Scripts\Tilemap\Tilemap.cs" Line="9" Column="39" />
-      <File FileName="Assets\Scripts\Tilemap\Components\DrawManager.cs" Line="9" Column="52" />
-      <File FileName="Assets\Scripts\Tilemap\Components\ProceduralDungeonTileManager.cs" Line="13" Column="16" />
-      <File FileName="Assets\Scripts\Tilemap\Procedural\Algorithms\BasicDungeonLevelGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Tilemap\Procedural\TilePrefabContainer.cs" Line="13" Column="2" />
+      <File FileName="Assets\Scripts\Tilemap\Tilemap.cs" Line="13" Column="22" />
+      <File FileName="Assets\Scripts\Tilemap\Components\DrawManager.cs" Line="65" Column="22" />
+      <File FileName="Assets\Scripts\Tilemap\Components\ProceduralDungeonTileManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Tilemap\Procedural\Algorithms\BasicDungeonLevelGenerator.cs" Line="161" Column="18" />
+      <File FileName="Assets\Scripts\Tilemap\Procedural\TilePrefabContainer.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Tilemap\Components\TileManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Tilemap\Procedural\Models\DungeonDirtModel.cs" Line="60" Column="103" />
+      <File FileName="Assets\Scripts\Tilemap\Procedural\Models\DungeonDirtModel.cs" Line="30" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

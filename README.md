@@ -10,7 +10,7 @@ The goal of this game is to create a Dragon Warrior 3 style 2D RPG procedurally.
 Version: 0.1
 
 ##Mile Posts:
-- 0.1: Create procedural dungeon level
+- 0.1: ~~Create procedural dungeon level~~
 -   0.0.1: Allow the player to navigate them.
 -	0.1.1: Staircase tile allows movement between floors.
 -	0.1.1: Generic player class.

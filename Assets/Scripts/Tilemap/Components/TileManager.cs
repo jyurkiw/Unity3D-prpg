@@ -17,13 +17,15 @@ public class TileManager : TilemapComponent {
 	protected int mapWidth;		///< Width of the map in tiles.
 	protected int mapHeight;	///< Height of the map in tiles.
 	
-	// Use this for initialization
-	public void Start () {
-		base.Start();
-		
+	void Awake() {
 		getMapBounds();
 		getDrawManager();
 	}
+	
+//	// Use this for initialization
+//	new void Start () {
+//		base.Start();
+//	}
 	
 	protected void getMapBounds() {
 		Tilemap tilemap = GameObject.Find("Cornerstone").GetComponent<Tilemap>();

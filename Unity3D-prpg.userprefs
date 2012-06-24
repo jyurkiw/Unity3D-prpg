@@ -1,18 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Tilemap\Procedural\Algorithms\BasicDungeonLevelGenerator.cs">
-    <Files>
-      <File FileName="Assets\Scripts\Tilemap\Tilemap.cs" Line="48" Column="44" />
-      <File FileName="Assets\Scripts\Tilemap\Components\DrawManager.cs" Line="66" Column="94" />
-      <File FileName="Assets\Scripts\Tilemap\Components\ProceduralDungeonTileManager.cs" Line="37" Column="25" />
-      <File FileName="Assets\Scripts\Tilemap\Procedural\Algorithms\BasicDungeonLevelGenerator.cs" Line="62" Column="51" />
-      <File FileName="Assets\Scripts\Tilemap\Procedural\TilePrefabContainer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Tilemap\Procedural\Models\DungeonDirtModel.cs" Line="68" Column="40" />
-      <File FileName="Assets\Scripts\Controller\RPGController.cs" Line="9" Column="9" />
-      <File FileName="Assets\Scripts\Tilemap\Base\TilemapComponent.cs" Line="13" Column="25" />
-      <File FileName="Assets\Scripts\Tilemap\Components\TileManager.cs" Line="23" Column="3" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

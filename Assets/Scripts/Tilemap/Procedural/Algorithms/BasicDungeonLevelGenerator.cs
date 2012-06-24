@@ -47,8 +47,35 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		
 		do {
 			//dunkard walk logic
-		} while((float)(totalSquares / (totalSquares - floorTiles)) >= minInnerSquares);
+			//see if bias is valid
+			if (VerifyDestinationLegality(CurrentDestinationLocation(location))) {
+				//get a new direction until the resulting new location is valid
+				do {
+					direction = NextBiasedDirection;
+				}while(!VerifyDestinationLegality(CurrentDestinationLocation(location)));
+			} else {
+				//previous forward direction is invalid, so get new direction ignoring old forward
+				do {
+					direction = NewDirectioin;
+				}while(!VerifyDestinationLegality(CurrentDestinationLocation(location)));
+			}
+			//we have new forward with bias for previous direction
+			//set new location
+			location = CurrentDestinationLocation(location);
+			Debug.Log("SET NEW LOCATION");
+			
+			//if new location is not already floor, set it to floor
+			//otherwise do nothing. It will be set to wall automatically.
+			Debug.Log(location);
+//			Debug.Log(floor[(int)location.x, (int)location.y]);
+			if(!floor[(int)location.x, (int)location.y]) {
+				floor[(int)location.x, (int)location.y] = true;
+				floorTiles++;
+			}
+			Debug.Log((1.0f - ((float)floorTiles / (float)totalSquares)) + " totalSquares: " + totalSquares + " floorTiles: " + floorTiles);
+		} while((1.0f - ((float)floorTiles / (float)totalSquares)) >= minInnerSquares);
 		
+		//generate the tiles for the map
 		GameObject tile;
 		
 		for(int x = 0; x < mapWidth; x++) {
@@ -122,6 +149,11 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		}
 	}
 	
+	private Vector2 CurrentDestinationLocation(Vector2 location) {
+		Debug.Log("loc: " + location + DestinationOffset + "new: " + (location + DestinationOffset));
+		return location + DestinationOffset;
+	}
+	
 	private Vector2 DestinationOffset {
 		get {
 			if (direction == Direction.NORTH) {
@@ -137,12 +169,14 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	}
 	
 	private bool VerifyDestinationLegality(Vector2 destination) {
-		if (destination.x == 0 ||
-			destination.y == 0 ||
-			destination.x == mapWidth - 1 ||
-			destination.y == mapHeight - 1)
-			return false;
-		else return true;
+		if ((destination.x > 0 && destination.x < mapWidth - 1) &&
+			(destination.y > 0 && destination.y < mapHeight - 1))
+			Debug.Log("Destination " + destination + " is valid.");
+		else Debug.Log("Destination " + destination + " is NOT valid.");
+		if ((destination.x > 0 && destination.x < mapWidth - 1) &&
+			(destination.y > 0 && destination.y < mapHeight - 1))
+			return true;
+		else return false;
 	}
 	
 	private Vector2 genRandomStartPoint() {
@@ -170,5 +204,14 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		floor[(int)xf, (int)yf] = true;
 		
 		return new Vector2(xf, yf);
+	}
+	
+	public void DisposeLevel() {
+		for(int x = 0; x < mapWidth; x++) {
+			for(int y = 0; y < mapHeight; y++) {
+				Destroy(drawManager.tilemap.map[x, y]);
+			}
+		}
+		generated = false;
 	}
 }

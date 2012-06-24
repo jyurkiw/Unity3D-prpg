@@ -44,7 +44,7 @@ public class DrawManager : TilemapComponent {
 	}
 	
 	// Use this for initialization
-	void Start () {
+	new void Start () {
 		base.Start();
 		tilesAreDirty = false;
 	}

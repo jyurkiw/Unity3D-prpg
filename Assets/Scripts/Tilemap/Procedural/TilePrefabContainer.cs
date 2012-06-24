@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /**
  * Container class for sprite collection prefab objects.
@@ -9,9 +10,25 @@ using System.Collections;
  */
 [AddComponentMenu("PRPG/Cornerstone/Prefab Container")]
 public class TilePrefabContainer : MonoBehaviour {
-	public enum PrefabType {PATH = 0, OUTDOOR, DUNGEON, TOWN, DOODADS};
-	
 	public GameObject[] prefabs;
 	public string[] prefabNames;
-	public PrefabType[] prefabTypes;
+	
+	private Dictionary<string,GameObject> prefabDictionary;
+	
+	public GameObject GetPrefab(string name) {
+		return prefabDictionary[name];
+	}
+	
+	public TilePrefabContainer() {
+		prefabDictionary = new Dictionary<string, GameObject>();
+	}
+	
+	void Awake() {
+		//construct the prefab dictionary
+		if (prefabs.Length != prefabNames.Length)
+			throw new System.ArgumentException("prefab.Length(" + prefabs.Length + ") is not the same as prefabNames.Length(" + prefabNames.Length + ")");
+		
+		for (int i = 0; i < prefabs.Length; i++)
+			prefabDictionary.Add(prefabNames[i], prefabs[i]);
+	}
 }

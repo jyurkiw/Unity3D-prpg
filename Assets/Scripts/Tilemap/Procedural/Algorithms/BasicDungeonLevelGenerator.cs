@@ -30,6 +30,9 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	 * 		Get new direction.
 	 */
 	public void initMapGeneration() {
+		System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+		stopwatch.Start();
+		
 		int totalSquares = ((mapHeight - 2) * (mapWidth - 2));
 		int floorTiles = 0;
 		
@@ -62,17 +65,13 @@ public partial class ProceduralDungeonTileManager : TileManager {
 			//we have new forward with bias for previous direction
 			//set new location
 			location = CurrentDestinationLocation(location);
-			Debug.Log("SET NEW LOCATION");
 			
 			//if new location is not already floor, set it to floor
 			//otherwise do nothing. It will be set to wall automatically.
-			Debug.Log(location);
-//			Debug.Log(floor[(int)location.x, (int)location.y]);
 			if(!floor[(int)location.x, (int)location.y]) {
 				floor[(int)location.x, (int)location.y] = true;
 				floorTiles++;
 			}
-			Debug.Log((1.0f - ((float)floorTiles / (float)totalSquares)) + " totalSquares: " + totalSquares + " floorTiles: " + floorTiles);
 		} while((1.0f - ((float)floorTiles / (float)totalSquares)) >= minInnerSquares);
 		
 		//generate the tiles for the map
@@ -91,6 +90,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		}
 		
 		generated = true;
+		Debug.Log("Level generation took " + stopwatch.Elapsed.Seconds + " seconds.");
 	}
 	
 	/**
@@ -150,7 +150,6 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	}
 	
 	private Vector2 CurrentDestinationLocation(Vector2 location) {
-		Debug.Log("loc: " + location + DestinationOffset + "new: " + (location + DestinationOffset));
 		return location + DestinationOffset;
 	}
 	
@@ -169,10 +168,6 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	}
 	
 	private bool VerifyDestinationLegality(Vector2 destination) {
-		if ((destination.x > 0 && destination.x < mapWidth - 1) &&
-			(destination.y > 0 && destination.y < mapHeight - 1))
-			Debug.Log("Destination " + destination + " is valid.");
-		else Debug.Log("Destination " + destination + " is NOT valid.");
 		if ((destination.x > 0 && destination.x < mapWidth - 1) &&
 			(destination.y > 0 && destination.y < mapHeight - 1))
 			return true;

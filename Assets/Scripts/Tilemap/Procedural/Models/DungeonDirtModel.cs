@@ -8,13 +8,17 @@ using System.Collections;
  * defined by the models.
  */
 public class DungeonDirtModel : IKeyedSpriteSheet {
-	public enum TileType { DIRT, WALL };	///< Simple enum so that the algorithm can tell the model what kind of sprite it needs.
+	/**
+	 * Simple enum so that the algorithm can tell the model what kind of sprite it needs.
+	 */
+	public enum TileType { DIRT = 5, WALL = 2, UPSTAIR = 0, DOWNSTAIR = 3, OPENCHEST = 1, CLOSECHEST = 4 };
 	
-	public GameObject prefab;	///< The sprite prefab. Pulled from a TilePrefabContainer.
+	public GameObject dirtPrefab;	///< The sprite prefab. Pulled from a TilePrefabContainer.
+	public GameObject doodadPrefab;	///< The doodad prefab. Pulled from a TilePrefabContainer.
 	
-	private string name = "DungeonDirt";
-	private int wall;
-	private int[] dirt;
+	private string nameDirt = "DungeonDirt";
+	private string nameDoodads = "DungeonDoodads";
+	private int numDirtTiles;
 	private System.Random rand;
 	
 	/**
@@ -23,51 +27,69 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 	 * and the TileManager's RNG object.
 	 */
 	public DungeonDirtModel(TilePrefabContainer prefabContainer, System.Random rand) {
-		int prefabIndex = 0;
-		for(int x = 0; x < prefabContainer.prefabNames.Length; x++) {
-			if(prefabContainer.prefabNames[x] == SPRITESHEETNAME) {
-				prefabIndex = x;
-				x = prefabContainer.prefabNames.Length;
-			}
-		}
-		
-		prefab = prefabContainer.prefabs[prefabIndex];
+		dirtPrefab = prefabContainer.GetPrefab(nameDirt);
+		doodadPrefab = prefabContainer.GetPrefab(nameDoodads);
 		
 		this.rand = rand;
 		
 		//sprite ids are hardcoded for this test class.
 		//future models will use some sort of data source.
-		wall = 4;
-		dirt = new int[] {0, 1, 2, 3, 5, 6, 7, 8};
+		numDirtTiles = 9;
 	}
 	
 	/**
 	 * The name of the spritesheet used with this model.
 	 */
-	public string SPRITESHEETNAME {
-		get { return name; }
+	public string DIRTSHEETNAME {
+		get { return nameDirt; }
+	}
+	
+	public string DOODADSHEETNAME {
+		get { return nameDoodads; }
 	}
 	
 	
 	#region IKeyedSpriteSheet implementation
 	/**
-	 * Get a sprite. The key is just the integer-cast of a DungeonDirtModel.TileType enum.
+	 * Get a sprite. The key is just the integer-cast of a DungeonDirtModel.TileType enum plus some magic
+	 * for dirt tiles.
 	 * 
 	 * @param key The DungeonDirtModel.TileType key that tells the model which kind of tile you need.
 	 */
 	public int getSpriteID (int key) {
-		if (key == (int)TileType.WALL) return wall;
-		else return dirt[rand.Next(dirt.Length)];
+		if (key >= 5)
+			key += rand.Next(numDirtTiles);
+		
+		return key;
 	}
 	
 	/**
 	 * Instantiate and return a sprite.
+	 * If the key is 0-4 return a doodad.
+	 * If the key is 5+, return a random dirt tile.
 	 * 
 	 * @param ID The id of the sprite we want to display. Usually fetched with a getSpriteID(key) call.
 	 */
 	public GameObject getSprite (int ID) {
+		GameObject prefab;
+		bool? trigger = null;
+		
+		if (ID >= 5) {
+			prefab = dirtPrefab;
+			ID -= 5;
+		}
+		else {
+			prefab = doodadPrefab;
+			if((TileType)ID == TileType.DOWNSTAIR || (TileType)ID == TileType.UPSTAIR)
+				trigger = true;
+			else trigger = false;
+		}
+		
 		GameObject newTile = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		tk2dSprite sprite = newTile.GetComponent<tk2dSprite>();
+		
+		if(trigger != null)
+			newTile.collider.isTrigger = (bool)trigger;
 		
 		sprite.spriteId = ID;
 		

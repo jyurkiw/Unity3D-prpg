@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Controller\RPGController.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Base\TilemapComponent.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\DrawManager.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\ProceduralDungeonTileManager.cs" />

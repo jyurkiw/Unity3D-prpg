@@ -8,6 +8,8 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	private enum Direction { NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3 };
 	private Direction direction;
 	
+	private GameObject cornerstone;
+	
 	/**
 	 * Floor grid. Read like bool[x][y] to keep things simple.
 	 */
@@ -43,18 +45,25 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		
 		Vector2 location = genRandomStartPoint();
 		
-//		do {
-//			//dunkard walk logic
-//		} while((float)(totalSquares / (totalSquares - floorTiles)) >= minInnerSquares);
+		do {
+			//dunkard walk logic
+		} while((float)(totalSquares / (totalSquares - floorTiles)) >= minInnerSquares);
+		
+		GameObject tile;
 		
 		for(int x = 0; x < mapWidth; x++) {
 			for(int y = 0; y < mapHeight; y++) {
 				if(floor[x, y])
-					drawManager.setTile(x, y, dungeonDirtModel.getSprite(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.DIRT)));
+					tile = dungeonDirtModel.getSprite(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.DIRT));
 				else
-					drawManager.setTile(x, y, dungeonDirtModel.getSprite(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.WALL)));
+					tile = dungeonDirtModel.getSprite(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.WALL));
+				
+				drawManager.setTile(x, y, tile);
+				tile.transform.parent = cornerstone.transform;
 			}
 		}
+		
+		generated = true;
 	}
 	
 	/**
@@ -141,20 +150,20 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		float xf, yf;
 		
 		if (direction == Direction.NORTH) {
-			xf = (float)rand.Next(mapWidth);
+			xf = (float)rand.Next(1, mapWidth - 1);
 			yf = 0;
 			direction = Direction.SOUTH;
 		} else if (direction == Direction.SOUTH) {
-			xf = (float)rand.Next(mapWidth);
+			xf = (float)rand.Next(1, mapWidth - 1);
 			yf = (float)mapHeight - 1;
 			direction = Direction.NORTH;
 		} else if (direction == Direction.WEST) {
 			xf = 0;
-			yf = (float)rand.Next(mapHeight);
+			yf = (float)rand.Next(1, mapHeight - 1);
 			direction = Direction.EAST;
 		} else {
 			xf = (float)mapWidth - 1;
-			yf = (float)rand.Next(mapHeight);
+			yf = (float)rand.Next(1, mapHeight - 1);
 			direction = Direction.WEST;
 		}
 		

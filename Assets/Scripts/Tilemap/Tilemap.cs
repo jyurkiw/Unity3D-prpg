@@ -40,8 +40,20 @@ public class Tilemap : MonoBehaviour {
 	private bool done;
 	
 	// Use this for initialization
-	void Start () {
-		components = new List<TilemapComponent>(GetComponents<TilemapComponent>());
+	public Tilemap() {
+		components = new List<TilemapComponent>();
+	}
+	
+	public void Awake() {
+		map = new GameObject[mapWidth, mapHeight];
+	}
+	
+	/**
+	 * Register a component with this tilemap.
+	 * Should be called by the component.
+	 */
+	public void RegisterComponent(TilemapComponent component) {
+		components.Add(component);
 	}
 	
 	/**

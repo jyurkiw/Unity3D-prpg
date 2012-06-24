@@ -19,6 +19,8 @@ public class TileManager : TilemapComponent {
 	
 	// Use this for initialization
 	public void Start () {
+		base.Start();
+		
 		getMapBounds();
 		getDrawManager();
 	}

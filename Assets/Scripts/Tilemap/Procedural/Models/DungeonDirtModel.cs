@@ -10,7 +10,7 @@ using System.Collections;
 public class DungeonDirtModel : IKeyedSpriteSheet {
 	public enum TileType { DIRT, WALL };	///< Simple enum so that the algorithm can tell the model what kind of sprite it needs.
 	
-	public tk2dSprite prefab;	///< The sprite prefab. Pulled from a TilePrefabContainer.
+	public GameObject prefab;	///< The sprite prefab. Pulled from a TilePrefabContainer.
 	
 	private string name = "DungeonDirt";
 	private int wall;
@@ -30,6 +30,8 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 				x = prefabContainer.prefabNames.Length;
 			}
 		}
+		
+		prefab = prefabContainer.prefabs[prefabIndex];
 		
 		this.rand = rand;
 		

@@ -33,7 +33,8 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	
 	private void initProceduralTileManager() {
 		//get TilePrefabContainer
-		prefabs = GameObject.Find("Cornerstone").GetComponent<TilePrefabContainer>();
+		cornerstone = GameObject.Find("Cornerstone");
+		prefabs = cornerstone.GetComponent<TilePrefabContainer>();
 	}
 	
 	#region implemented abstract members of TilemapComponent

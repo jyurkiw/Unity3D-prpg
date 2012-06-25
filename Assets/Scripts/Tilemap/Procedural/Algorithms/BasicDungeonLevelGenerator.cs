@@ -58,6 +58,11 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		Vector2 location = genRandomStartPoint();
 		startLocation = new Vector2(location.x, location.y);
 		
+		//move the player to the startLocation
+		GameObject player = GameObject.FindGameObjectWithTag("GameController");
+		float tileSize = cornerstone.GetComponent<DrawManager>().tileSize;
+		player.transform.position = new Vector3(startLocation.x * tileSize, startLocation.y * tileSize, player.transform.position.z);
+		
 		do {
 			//dunkard walk logic
 			//see if bias is valid

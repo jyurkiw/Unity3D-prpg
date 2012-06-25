@@ -15,6 +15,15 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	 */
 	private bool[,] floor;
 	
+	private Vector2 startLocation;
+	
+	/**
+	 * Level's start location. Used for initial placement of the player, and perhaps a downward staircase.
+	 */
+	public Vector2 StartLocation {
+		get { return startLocation; }
+	}
+	
 	/**
 	 * Implementation of a biased drunkard walk.
 	 * 
@@ -47,6 +56,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		}
 		
 		Vector2 location = genRandomStartPoint();
+		startLocation = new Vector2(location.x, location.y);
 		
 		do {
 			//dunkard walk logic

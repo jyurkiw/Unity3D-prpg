@@ -10,5 +10,6 @@ public interface ISpriteSheet {
 
 public interface IKeyedSpriteSheet {
 	int getSpriteID(int key);
-	GameObject getSprite(int ID);
+	GameObject getFloor(int ID);
+	GameObject getDoodad(int ID);
 }

@@ -70,30 +70,46 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 	 * 
 	 * @param ID The id of the sprite we want to display. Usually fetched with a getSpriteID(key) call.
 	 */
-	public GameObject getSprite (int ID) {
+	public GameObject getFloor (int ID) {
 		GameObject prefab;
 		bool? trigger = null;
+		bool doodad = false;
 		
+		//if ID > 5 it's dirt
 		if (ID >= 5) {
 			prefab = dirtPrefab;
 			ID -= 5;
 		}
+		//otherwise it's a doodad
 		else {
+			doodad = true;
 			prefab = doodadPrefab;
 			if((TileType)ID == TileType.DOWNSTAIR || (TileType)ID == TileType.UPSTAIR)
 				trigger = true;
-			else trigger = false;
+			else {
+				trigger = false;
+			}
 		}
 		
 		GameObject newTile = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		tk2dSprite sprite = newTile.GetComponent<tk2dSprite>();
 		
-		if(trigger != null)
+		if(trigger != null) {
 			newTile.collider.isTrigger = (bool)trigger;
+		}
+		
+		//add tileinfo component for the draw manager
+		TileInfo info = newTile.AddComponent<TileInfo>();
+		if (doodad)
+			info.layer = TileInfo.TileLayer.DOODAD;
 		
 		sprite.spriteId = ID;
 		
 		return newTile;
+	}
+	
+	public GameObject getDoodad (int ID) {
+		return getFloor(ID);
 	}
 	#endregion
 }

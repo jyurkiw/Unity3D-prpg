@@ -95,9 +95,9 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		for(int x = 0; x < mapWidth; x++) {
 			for(int y = 0; y < mapHeight; y++) {
 				if(floor[x, y])
-					tile = dungeonDirtModel.getSprite(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.DIRT));
+					tile = dungeonDirtModel.getFloor(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.DIRT));
 				else
-					tile = dungeonDirtModel.getSprite(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.WALL));
+					tile = dungeonDirtModel.getDoodad(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.WALL));
 				
 				drawManager.setTile(x, y, tile);
 				tile.transform.parent = cornerstone.transform;

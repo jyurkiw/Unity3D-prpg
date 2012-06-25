@@ -59,11 +59,18 @@ public class DrawManager : TilemapComponent {
 	 */
 	public override void OnTilemapOperation ()
 	{
+		float z;
+		
 		if (tilesAreDirty) {
 			for (int y = 0; y < tilemap.mapHeight; y++) {
 				for (int x = 0; x < tilemap.mapWidth; x++) {
 					if (tilemap.map[x, y] is GameObject) {
-						tilemap.map[x, y].transform.localPosition = new Vector3(x * tileSize, y * tileSize, 0);
+						if (tilemap.map[x,y].GetComponent<TileInfo>().layer == TileInfo.TileLayer.FLOOR)
+							z = 0;
+						else
+							z = -0.1f;
+						
+						tilemap.map[x, y].transform.localPosition = new Vector3(x * tileSize, y * tileSize, z);
 					}
 				}
 			}

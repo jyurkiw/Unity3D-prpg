@@ -5,8 +5,9 @@ public partial class RPGController : MonoBehaviour {
 	public float movementActionDuration;
 	
 	private enum MovementDirection { NORTH, SOUTH, EAST, WEST };
-	private enum MovementStatus { MOVING, STOPPED };
+	private enum MovementStatus { MOVING, STOPPED, COLLIDED };
 	
+	private CharacterController controller;
 	private MovementDirection movementDirection;
 	private Vector3 movementVector;
 	private MovementStatus movementStatus;
@@ -14,6 +15,7 @@ public partial class RPGController : MonoBehaviour {
 	private float tileSize;
 	
 	private void MovementStart() {
+		controller = GetComponent<CharacterController>();
 		DrawManager drawManager = GameObject.Find("Cornerstone").GetComponent<DrawManager>();
 		tileSize = drawManager.tileSize;
 		movementStatus = MovementStatus.STOPPED;
@@ -61,6 +63,12 @@ public partial class RPGController : MonoBehaviour {
 		Vector3 destination = position + movementVector;
 		
 		while(moveTime < movementActionDuration) {
+			//if we've collided with something, abort the move and return to the start position
+			if (movementStatus == MovementStatus.COLLIDED) {
+				destination = position;
+				position = transform.localPosition;
+				movementStatus = MovementStatus.MOVING;
+			}
 			moveTime += Time.deltaTime;
 			transform.localPosition = Vector3.Lerp(position, destination, moveTime / movementActionDuration);
 			
@@ -71,5 +79,9 @@ public partial class RPGController : MonoBehaviour {
 		
 		movementStatus = MovementStatus.STOPPED;
 		yield break;
+	}
+	
+	void OnCollisionEnter(Collision collision) {
+		movementStatus = MovementStatus.COLLIDED;
 	}
 }

@@ -13,8 +13,8 @@ Version: 0.1
 - 0.1: ~~Create procedural dungeon level~~
 -   0.1.1: ~~Basic player movement.~~
 -	0.1.2: Wall collission.
--	0.1.2: Staircase tile allows movement between floors.
--	0.1.3: Generic player class.
+-	0.1.3: Staircase tile allows movement between floors.
+-	0.1.4: Generic player class.
 - 0.2: Generic monster.
 -	0.2.1: Basic combat system.
 - 0.3: Generate random encounters.

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Editor\Custom Inspectors\TilePrefabContainerInspector.cs" />
+     <Compile Include="Assets\Scripts\Editor\GetTileManagerTest.cs" />
      <Compile Include="Assets\Scripts\Editor\SpriteDimensionsWizard.cs" />
      <Compile Include="Assets\Scripts\Editor\SpriteNameWizard.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraEditor.cs" />

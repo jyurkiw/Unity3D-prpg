@@ -3,6 +3,7 @@ using System.Collections;
 
 public partial class RPGController : MonoBehaviour {
 	public float movementActionDuration;
+	public float tileSize;
 	
 	private enum MovementDirection { NORTH, SOUTH, EAST, WEST };
 	private enum MovementStatus { MOVING, STOPPED, COLLIDED };
@@ -12,12 +13,8 @@ public partial class RPGController : MonoBehaviour {
 	private Vector3 movementVector;
 	private MovementStatus movementStatus;
 	
-	private float tileSize;
-	
 	private void MovementStart() {
 		controller = GetComponent<CharacterController>();
-		DrawManager drawManager = GameObject.Find("Cornerstone").GetComponent<DrawManager>();
-		tileSize = drawManager.tileSize;
 		movementStatus = MovementStatus.STOPPED;
 	}
 	

@@ -8,8 +8,6 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	private enum Direction { NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3 };
 	private Direction direction;
 	
-	private GameObject cornerstone;
-	
 	/**
 	 * Floor grid. Read like bool[x][y] to keep things simple.
 	 */
@@ -58,11 +56,6 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		Vector2 location = genRandomStartPoint();
 		startLocation = new Vector2(location.x, location.y);
 		
-		//move the player to the startLocation
-		GameObject player = GameObject.FindGameObjectWithTag("GameController");
-		float tileSize = cornerstone.GetComponent<DrawManager>().tileSize;
-		player.transform.position = new Vector3(startLocation.x * tileSize, startLocation.y * tileSize, player.transform.position.z);
-		
 		do {
 			//dunkard walk logic
 			//see if bias is valid
@@ -100,7 +93,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 					tile = dungeonDirtModel.getDoodad(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.WALL));
 				
 				drawManager.setTile(x, y, tile);
-				tile.transform.parent = cornerstone.transform;
+				tile.transform.parent = transform;
 			}
 		}
 		

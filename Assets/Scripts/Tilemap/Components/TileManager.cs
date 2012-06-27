@@ -22,19 +22,16 @@ public class TileManager : TilemapComponent {
 		getDrawManager();
 	}
 	
-//	// Use this for initialization
-//	new void Start () {
-//		base.Start();
-//	}
-	
 	protected void getMapBounds() {
-		Tilemap tilemap = GameObject.Find("Cornerstone").GetComponent<Tilemap>();
+		//Tilemap tilemap = GameObject.Find("Cornerstone").GetComponent<Tilemap>();
+		Tilemap tilemap = GetComponent<Tilemap>();
 		mapWidth = tilemap.mapWidth;
 		mapHeight = tilemap.mapHeight;
 	}
 	
 	protected void getDrawManager() {
-		drawManager = GameObject.Find("Cornerstone").GetComponent<DrawManager>();
+		//drawManager = GameObject.Find("Cornerstone").GetComponent<DrawManager>();
+		drawManager = GetComponent<DrawManager>();
 	}
 	
 	#region implemented abstract members of TilemapComponent

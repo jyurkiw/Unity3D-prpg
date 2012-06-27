@@ -10,8 +10,9 @@ using System.Collections.Generic;
  */
 [AddComponentMenu("PRPG/Controllers/RPGController")]
 public partial class RPGController : MonoBehaviour {
-	public Tilemap tilemap;
+	//public Tilemap tilemap;
 	public bool play;
+	public CornerstoneManager cornerstoneManager;
 	
 	void Start() {
 		play = true;
@@ -20,10 +21,17 @@ public partial class RPGController : MonoBehaviour {
 		MovementStart();
 		
 		//Start up the tilemap.
-		tilemap.StartTilemapOperations();
+		//tilemap.StartTilemapOperations();
 		
 		//start collecting input from the user
 		StartCoroutine(InputHandler());
+	}
+	
+	public void Update() {
+		if (Input.GetKeyDown(KeyCode.Z))
+			cornerstoneManager.AdvanceOneLevel();
+		if (Input.GetKeyDown(KeyCode.X))
+			cornerstoneManager.ReturnOneLevel();
 	}
 	
 	private IEnumerator InputHandler() {
@@ -39,7 +47,7 @@ public partial class RPGController : MonoBehaviour {
 			
 			yield return new WaitForEndOfFrame();
 		}
-		tilemap.StopTilemapOperations();
+		//tilemap.StopTilemapOperations();
 		Application.Quit();
 		yield break;
 	}

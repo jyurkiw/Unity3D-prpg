@@ -97,6 +97,10 @@ public class CornerstoneManager : MonoBehaviour {
 	 * advance all levels up one.
 	 */
 	public void AdvanceOneLevel() {
+		//disable the destination stair case
+		Vector2 startLocation = nextCornerstone.GetComponent<DungeonFloorInfo>().startLocation;
+		nextCornerstone.GetComponent<Tilemap>().map[(int)startLocation.x, (int)startLocation.y].GetComponent<StairHandler>().enterProtected = true;
+		
 		lastMove = TargetTilemap.NEXT;
 		GameObject toDestroy = previousCornerstone;
 		previousCornerstone = activeCornerstone;
@@ -122,6 +126,10 @@ public class CornerstoneManager : MonoBehaviour {
 	 * move all levels back one.
 	 */
 	public void ReturnOneLevel() {
+		//disable the destination stair case
+		Vector2 exitLocation = previousCornerstone.GetComponent<DungeonFloorInfo>().exitLocation;
+		previousCornerstone.GetComponent<Tilemap>().map[(int)exitLocation.x, (int)exitLocation.y].GetComponent<StairHandler>().enterProtected = true;
+		
 		lastMove = TargetTilemap.PREVIOUS;
 		GameObject toDestroy = nextCornerstone;
 		nextCornerstone = activeCornerstone;
@@ -142,9 +150,17 @@ public class CornerstoneManager : MonoBehaviour {
 			DestroyTilemapFromPrefab(toDestroy);
 	}
 	
+	/**
+	 * Create a tilemap from a prefab in the generated cornerstones list.
+	 */
 	protected void CreateTilemapFromPrefab(int prefabIndex, TargetTilemap target) {
 		GameObject cornerstone;
 		
+		/*
+		 * Create a new cornerstone object based on it's location in the scene.
+		 * The active target should only be used on game start, and when transitioning from
+		 * a dungeon to the world map.
+		 */
 		if (target == TargetTilemap.ACTIVE) {
 			activeCornerstone = (GameObject)Instantiate(cornerstones[prefabIndex].cornerstonePrefab, activePosition, Quaternion.identity);
 			cornerstone = activeCornerstone;
@@ -158,11 +174,24 @@ public class CornerstoneManager : MonoBehaviour {
 			cornerstone = previousCornerstone;
 		}
 		
+		//name the cornerstone based on the level
 		cornerstone.name = "Cornerstone(Level " + prefabIndex + ")";
+		
+		//parent the cornerstone to the cornerstone manager
 		cornerstone.transform.parent = transform;
 		
+		//set the seed used to create the level we just instantiated before we generate it.
 		ProceduralSeed seedingInfo = cornerstone.GetComponent<ProceduralSeed>();
 		seedingInfo.seed = cornerstones[prefabIndex].rngSeed;
+		
+		//set any necessary floor information before generation.
+		AbstractProceduralFloorInfo floorInfo = cornerstone.GetComponent<AbstractProceduralFloorInfo>();
+		if (prefabIndex == 0)
+			floorInfo.floorType = FloorType.ENTRANCE;
+		else if (prefabIndex == levels - 1)
+			floorInfo.floorType = FloorType.BOTTOM;
+		floorInfo.floorNumber = prefabIndex;
+		floorInfo.GenerateDependentInformation();
 		
 		Tilemap tilemap = cornerstone.GetComponent<Tilemap>();
 		tilemap.StartTilemapOperations();
@@ -181,7 +210,12 @@ public class CornerstoneManager : MonoBehaviour {
 	
 	protected void SetPlayerPosition() {
 		float tileSize = activeCornerstone.GetComponent<DrawManager>().tileSize;
-		Vector2 startLocation = activeCornerstone.GetComponent<ProceduralDungeonTileManager>().StartLocation;
+		Vector2 startLocation;
+		
+		if (lastMove == TargetTilemap.NEXT)
+			startLocation = activeCornerstone.GetComponent<DungeonFloorInfo>().startLocation;
+		else
+			startLocation = activeCornerstone.GetComponent<DungeonFloorInfo>().exitLocation;
 		player.transform.localPosition = new Vector3(startLocation.x * tileSize, startLocation.y * tileSize, player.transform.localPosition.z);
 	}
 	

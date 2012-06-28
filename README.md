@@ -7,13 +7,13 @@ Procedural 2D Roleplaying Game in Unity 3D
 ##Goal:
 The goal of this game is to create a Dragon Warrior 3 style 2D RPG procedurally.
 
-Version: 0.1.2
+Version: 0.1.3
 
 ##Mile Posts:
 - 0.1: ~~Create procedural dungeon level~~
 -   0.1.1: ~~Basic player movement.~~
 -	0.1.2: ~~Wall collission.~~
--	0.1.3: Staircase tile allows movement between floors.
+-	0.1.3: ~~Staircase tile allows movement between floors.~~
 -	0.1.4: Generic player class.
 - 0.2: Generic monster.
 -	0.2.1: Basic combat system.

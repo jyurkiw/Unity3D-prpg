@@ -5,27 +5,20 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	public float minInnerSquares;	///< Float representing the proportion of squares that should be left walls.
 	public float sameDirectionBias; ///< Float representing the increased tendency to go in the same direction as the previous step.
 	
-	private enum Direction { NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3 };
 	private Direction direction;
 	
 	/**
 	 * Floor grid. Read like bool[x][y] to keep things simple.
 	 */
-	private bool[,] floor;
+	private DrunkardWalkTile[,] floor;
 	
-	private Vector2 startLocation;
-	
-	/**
-	 * Level's start location. Used for initial placement of the player, and perhaps a downward staircase.
-	 */
-	public Vector2 StartLocation {
-		get { return startLocation; }
-	}
+	//Floor tile type for two-stage drunkard walk
+	private enum DrunkardWalkTile { ENTRANCEDIRT, EXITDIRT, WALL };
 	
 	/**
 	 * Implementation of a biased drunkard walk.
 	 * 
-	 * Come in off an edge (because I don't have stairs).
+	 * Come in off an edge for the first floor. Random space after the first floor.
 	 * 
 	 * Loop until we have cleared enough spaces to meet our minInnerSquares ratio.
 	 * 
@@ -40,21 +33,67 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 		stopwatch.Start();
 		
-		int totalSquares = ((mapHeight - 2) * (mapWidth - 2));
-		int floorTiles = 0;
+		DungeonFloorInfo floorInfo = GetComponent<DungeonFloorInfo>();
 		
 		DungeonDirtModel dungeonDirtModel = new DungeonDirtModel(prefabs, rand);
 		
-		floor = new bool[mapWidth, mapHeight];
+		floor = new DrunkardWalkTile[mapWidth, mapHeight];
 		
 		for(int x = 0; x < mapWidth; x++) {
 			for(int y = 0; y < mapHeight; y++) {
-				floor[x,y] = false;
+				floor[x,y] = DrunkardWalkTile.WALL;
 			}
 		}
 		
-		Vector2 location = genRandomStartPoint();
-		startLocation = new Vector2(location.x, location.y);
+		floor[(int)floorInfo.startLocation.x, (int)floorInfo.startLocation.y] = DrunkardWalkTile.ENTRANCEDIRT;
+		
+		//run two-stage drunkard walk
+		DrunkardWalk(floorInfo.startLocation, DrunkardWalkTile.ENTRANCEDIRT);
+		
+		if (floor[(int)floorInfo.exitLocation.x, (int)floorInfo.exitLocation.y] == DrunkardWalkTile.WALL)
+			DrunkardWalk(floorInfo.exitLocation, DrunkardWalkTile.EXITDIRT);
+		
+		//generate the tiles for the map
+		GameObject tile;
+		
+		for(int x = 0; x < mapWidth; x++) {
+			for(int y = 0; y < mapHeight; y++) {
+				if(floor[x, y] != DrunkardWalkTile.WALL)
+					tile = dungeonDirtModel.getFloor(dungeonDirtModel.getSpriteID((int)TileType.DIRT));
+				else
+					tile = dungeonDirtModel.getDoodad(dungeonDirtModel.getSpriteID((int)TileType.WALL));
+				
+				drawManager.setTile(x, y, tile);
+				tile.transform.parent = transform;
+			}
+		}
+		
+		//Set the staircase tiles
+		//downstairs
+		if(floorInfo.hasStairDown) {
+			tile = dungeonDirtModel.getFloor(dungeonDirtModel.getSpriteID((int)TileType.UPSTAIR));
+			tile.transform.parent = transform;
+			drawManager.setTile((int)floorInfo.startLocation.x, (int)floorInfo.startLocation.y, tile);
+		}
+		
+		if(floorInfo.hasStairUp) {
+			tile = dungeonDirtModel.getFloor(dungeonDirtModel.getSpriteID((int)TileType.DOWNSTAIR));
+			tile.transform.parent = transform;
+			drawManager.setTile((int)floorInfo.exitLocation.x, (int)floorInfo.exitLocation.y, tile);
+		}
+		
+		generated = true;
+		Debug.Log("Level generation took " + stopwatch.Elapsed.Seconds + " seconds.");
+	}
+		
+	/**
+	 * Drunkard Walk algorithm.
+	 * Random walk with bias.
+	 */
+	private void DrunkardWalk(Vector2 location, DrunkardWalkTile walkTile) {
+		int totalSquares = ((mapHeight - 2) * (mapWidth - 2));
+		int floorTiles = 0;
+		bool done = false;
 		
 		do {
 			//dunkard walk logic
@@ -76,29 +115,16 @@ public partial class ProceduralDungeonTileManager : TileManager {
 			
 			//if new location is not already floor, set it to floor
 			//otherwise do nothing. It will be set to wall automatically.
-			if(!floor[(int)location.x, (int)location.y]) {
-				floor[(int)location.x, (int)location.y] = true;
+			if(floor[(int)location.x, (int)location.y] == DrunkardWalkTile.WALL) {
+				floor[(int)location.x, (int)location.y] = walkTile;
 				floorTiles++;
 			}
-		} while((1.0f - ((float)floorTiles / (float)totalSquares)) >= minInnerSquares);
-		
-		//generate the tiles for the map
-		GameObject tile;
-		
-		for(int x = 0; x < mapWidth; x++) {
-			for(int y = 0; y < mapHeight; y++) {
-				if(floor[x, y])
-					tile = dungeonDirtModel.getFloor(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.DIRT));
-				else
-					tile = dungeonDirtModel.getDoodad(dungeonDirtModel.getSpriteID((int)DungeonDirtModel.TileType.WALL));
-				
-				drawManager.setTile(x, y, tile);
-				tile.transform.parent = transform;
+			if (walkTile == DrunkardWalkTile.ENTRANCEDIRT)
+				done = (1.0f - ((float)floorTiles / (float)totalSquares)) < minInnerSquares;
+			else {
+				done = floor[(int)location.x, (int)location.y] == DrunkardWalkTile.ENTRANCEDIRT;
 			}
-		}
-		
-		generated = true;
-		Debug.Log("Level generation took " + stopwatch.Elapsed.Seconds + " seconds.");
+		} while(!done);
 	}
 	
 	/**
@@ -182,6 +208,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		else return false;
 	}
 	
+	/*
 	private Vector2 genRandomStartPoint() {
 		direction = (Direction)rand.Next(4);
 		float xf, yf;
@@ -208,6 +235,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		
 		return new Vector2(xf, yf);
 	}
+	*/
 	
 	public void DisposeLevel() {
 		for(int x = 0; x < mapWidth; x++) {

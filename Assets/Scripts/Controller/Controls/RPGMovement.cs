@@ -5,23 +5,38 @@ public partial class RPGController : MonoBehaviour {
 	public float movementActionDuration;
 	public float tileSize;
 	
-	private enum MovementDirection { NORTH, SOUTH, EAST, WEST };
-	private enum MovementStatus { MOVING, STOPPED, COLLIDED };
-	
-	private CharacterController controller;
-	private MovementDirection movementDirection;
+	//private CharacterController controller;
+	//private Direction movementDirection;
 	private Vector3 movementVector;
 	private MovementStatus movementStatus;
 	
+	public bool IsStopped {
+		get { return movementStatus == MovementStatus.STOPPED; }
+	}
+	
+	public bool IsProtected {
+		get { return movementStatus == MovementStatus.PROTECTED; }
+		set {
+			if(value)
+				movementStatus = MovementStatus.PROTECTED;
+			else
+				movementStatus = MovementStatus.STOPPED;
+		}
+	}
+	
+	public void AbortMove() {
+		movementStatus = MovementStatus.ABORTED;
+	}
+	
 	private void MovementStart() {
-		controller = GetComponent<CharacterController>();
+		//controller = GetComponent<CharacterController>();
 		movementStatus = MovementStatus.STOPPED;
 	}
 	
 	partial void HandleW() {
 		if(movementStatus == MovementStatus.STOPPED) {
 			movementStatus = MovementStatus.MOVING;
-			movementDirection = MovementDirection.NORTH;
+			//movementDirection = MovementDirection.NORTH;
 			movementVector = new Vector3(0, tileSize, 0);
 			StartCoroutine(MovePlayer());
 		}
@@ -30,7 +45,7 @@ public partial class RPGController : MonoBehaviour {
 	partial void HandleA() {
 		if(movementStatus == MovementStatus.STOPPED) {
 			movementStatus = MovementStatus.MOVING;
-			movementDirection = MovementDirection.WEST;
+			//movementDirection = MovementDirection.WEST;
 			movementVector = new Vector3(-tileSize, 0, 0);
 			StartCoroutine(MovePlayer());
 		}
@@ -39,7 +54,7 @@ public partial class RPGController : MonoBehaviour {
 	partial void HandleS() {
 		if(movementStatus == MovementStatus.STOPPED) {
 			movementStatus = MovementStatus.MOVING;
-			movementDirection = MovementDirection.SOUTH;
+			//movementDirection = MovementDirection.SOUTH;
 			movementVector = new Vector3(0, -tileSize, 0);
 			StartCoroutine(MovePlayer());
 		}
@@ -48,7 +63,7 @@ public partial class RPGController : MonoBehaviour {
 	partial void HandleD() {
 		if(movementStatus == MovementStatus.STOPPED) {
 			movementStatus = MovementStatus.MOVING;
-			movementDirection = MovementDirection.EAST;
+			//movementDirection = MovementDirection.EAST;
 			movementVector = new Vector3(tileSize, 0, 0);
 			StartCoroutine(MovePlayer());
 		}
@@ -59,7 +74,7 @@ public partial class RPGController : MonoBehaviour {
 		Vector3 position = transform.localPosition;
 		Vector3 destination = position + movementVector;
 		
-		while(moveTime < movementActionDuration) {
+		while(moveTime < movementActionDuration && movementStatus != MovementStatus.ABORTED) {
 			//if we've collided with something, abort the move and return to the start position
 			if (movementStatus == MovementStatus.COLLIDED) {
 				destination = position;
@@ -72,13 +87,14 @@ public partial class RPGController : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 		
-		transform.localPosition = destination;
+		if (movementStatus != MovementStatus.ABORTED)
+			transform.localPosition = destination;
 		
 		movementStatus = MovementStatus.STOPPED;
 		yield break;
 	}
 	
-	void OnCollisionEnter(Collision collision) {
+	public void OnCollisionEnter(Collision collision) {
 		movementStatus = MovementStatus.COLLIDED;
 	}
 }

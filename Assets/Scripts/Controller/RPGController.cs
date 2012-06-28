@@ -27,12 +27,12 @@ public partial class RPGController : MonoBehaviour {
 		StartCoroutine(InputHandler());
 	}
 	
-	public void Update() {
-		if (Input.GetKeyDown(KeyCode.Z))
-			cornerstoneManager.AdvanceOneLevel();
-		if (Input.GetKeyDown(KeyCode.X))
-			cornerstoneManager.ReturnOneLevel();
-	}
+//	public void Update() {
+//		if (Input.GetKeyDown(KeyCode.Z))
+//			cornerstoneManager.AdvanceOneLevel();
+//		if (Input.GetKeyDown(KeyCode.X))
+//			cornerstoneManager.ReturnOneLevel();
+//	}
 	
 	private IEnumerator InputHandler() {
 		while(play) {

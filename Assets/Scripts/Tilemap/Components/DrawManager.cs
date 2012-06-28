@@ -39,6 +39,8 @@ public class DrawManager : TilemapComponent {
 	 * doesn't opt-out next frame.
 	 */
 	public void setTile(int x, int y, GameObject tile) {
+		if (tilemap.map[x, y] != null)
+			Destroy(tilemap.map[x, y]);
 		tilemap.map[x, y] = tile;
 		tilesAreDirty = true;
 	}

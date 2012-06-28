@@ -46,12 +46,19 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Controller\Controls\RPGMovement.cs" />
      <Compile Include="Assets\Scripts\Controller\RPGController.cs" />
+     <Compile Include="Assets\Scripts\Enums\Direction.cs" />
+     <Compile Include="Assets\Scripts\Enums\FloorType.cs" />
+     <Compile Include="Assets\Scripts\Enums\MovementStatus.cs" />
+     <Compile Include="Assets\Scripts\Enums\TileType.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Base\TilemapComponent.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\CornerstoneManager.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\DrawManager.cs" />
+     <Compile Include="Assets\Scripts\Tilemap\Components\StairHandler.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\TileInfo.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\TileManager.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Procedural\Algorithms\BasicDungeonLevelGenerator.cs" />
+     <Compile Include="Assets\Scripts\Tilemap\Procedural\Components\AbstractProceduralFloorInfo.cs" />
+     <Compile Include="Assets\Scripts\Tilemap\Procedural\Components\DungeonFloorInfo.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Procedural\Components\ProceduralDungeonTileManager.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Procedural\Components\ProceduralSeed.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Procedural\Models\DungeonDirtModel.cs" />

@@ -7,12 +7,7 @@ using System.Collections;
  * sprite sheets will have to adhere to standards
  * defined by the models.
  */
-public class DungeonDirtModel : IKeyedSpriteSheet {
-	/**
-	 * Simple enum so that the algorithm can tell the model what kind of sprite it needs.
-	 */
-	public enum TileType { DIRT = 5, WALL = 2, UPSTAIR = 0, DOWNSTAIR = 3, OPENCHEST = 1, CLOSECHEST = 4 };
-	
+public class DungeonDirtModel : IKeyedSpriteSheet {	
 	public GameObject dirtPrefab;	///< The sprite prefab. Pulled from a TilePrefabContainer.
 	public GameObject doodadPrefab;	///< The doodad prefab. Pulled from a TilePrefabContainer.
 	
@@ -84,9 +79,9 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 		else {
 			doodad = true;
 			prefab = doodadPrefab;
-			if((TileType)ID == TileType.DOWNSTAIR || (TileType)ID == TileType.UPSTAIR)
+			if((TileType)ID == TileType.DOWNSTAIR || (TileType)ID == TileType.UPSTAIR) {
 				trigger = true;
-			else {
+			} else {
 				trigger = false;
 			}
 		}
@@ -96,6 +91,17 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 		
 		if(trigger != null) {
 			newTile.collider.isTrigger = (bool)trigger;
+		}
+		
+		//add logic components to stair tiles
+		if((TileType)ID == TileType.DOWNSTAIR) {
+			StairHandler stairHandler = newTile.AddComponent<StairHandler>();
+			stairHandler.tileType = TileType.DOWNSTAIR;
+		}
+		
+		if((TileType)ID == TileType.UPSTAIR) {
+			StairHandler stairHandler = newTile.AddComponent<StairHandler>();
+			stairHandler.tileType = TileType.UPSTAIR;
 		}
 		
 		//add tileinfo component for the draw manager

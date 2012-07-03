@@ -13,7 +13,7 @@ using System.Collections;
 public partial class ProceduralDungeonTileManager : TileManager {
 	public bool generated;	///< Level is generated flag.
 	
-	private System.Random rand;	///< The RNG used to generate the level.
+	private PRPGRandom rand;	///< The RNG used to generate the level.
 	private TilePrefabContainer prefabs;	///< The prefab container.
 	
 	private ProceduralSeed seedingInfo;
@@ -23,10 +23,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 		base.Start();
 		seedingInfo = GetComponent<ProceduralSeed>();
 		
-		if (seedingInfo.seed > 0)
-			rand = new System.Random(seedingInfo.seed);
-		else
-			rand = new System.Random();
+		rand = new PRPGRandom(seedingInfo.GetSeedArray());
 		
 		generated = false;
 		

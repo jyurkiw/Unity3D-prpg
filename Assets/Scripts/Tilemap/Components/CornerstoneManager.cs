@@ -16,7 +16,7 @@ using System.Collections.Generic;
  */
 [AddComponentMenu("PRPG/Cornerstone Manager")]
 public class CornerstoneManager : MonoBehaviour {
-	public int seed;	///< The cornerstone seed.
+	public long[] seed;	///< The cornerstone seed.
 	public int levels;	///< The number of levels in this unit of levels
 	public List<GameObject> cornerstonePrefabs;	///< The cornerstone prefabs used to create levels.
 	public GameObject previousCornerstone;	///< The previous cornerstone in the order.
@@ -24,7 +24,7 @@ public class CornerstoneManager : MonoBehaviour {
 	public GameObject nextCornerstone;		///< The next cornerstone in the order.
 	public GameObject player; ///< The player object.
 	
-	private System.Random rand;
+	private PRPGRandom rand;
 	private List<CornerstoneInfo> cornerstones;
 	private int cornerstoneIndex;
 	
@@ -40,7 +40,7 @@ public class CornerstoneManager : MonoBehaviour {
 	 * If the last move operation was NEXT it returns the seed for the next level.
 	 * If the last move operation was RETURN if returns the seed for the previous level.
 	 */
-	public int GetInactiveSeed {
+	public long[] GetInactiveSeed {
 		get {
 			if (lastMove == TargetTilemap.NEXT)
 				return cornerstones[cornerstoneIndex + 1].rngSeed;
@@ -53,6 +53,7 @@ public class CornerstoneManager : MonoBehaviour {
 	 * Initialize the cornerstone Manager.
 	 */
 	public CornerstoneManager() {
+		seed = new long[5] {42L, 38254468L, 92444892L, 546874135L, 928672534L}; //Remove once default seeding is not necessary.
 		cornerstones = new List<CornerstoneInfo>();
 		cornerstonePrefabs = new List<GameObject>();
 		cornerstoneIndex = 0;
@@ -62,21 +63,21 @@ public class CornerstoneManager : MonoBehaviour {
 	 * On Awake, populate the seeds and level prefabs.
 	 */
 	public void Awake() {
-		rand = new System.Random(seed);
+		rand = new PRPGRandom(seed);
 		
 		cornerstones.Add(new CornerstoneInfo(
 			cornerstonePrefabs[rand.Next(cornerstonePrefabs.Count)],
-			rand.Next(int.MaxValue), CornerstoneInfo.MapType.ENTRANCE));
+			rand.NextRNGSeedingSet(), CornerstoneInfo.MapType.ENTRANCE));
 		
 		for (int i = 1; i < levels - 1; i++) {
 			cornerstones.Add(new CornerstoneInfo(
 				cornerstonePrefabs[rand.Next(cornerstonePrefabs.Count)],
-				rand.Next(int.MaxValue), CornerstoneInfo.MapType.STANDARD));
+				rand.NextRNGSeedingSet(), CornerstoneInfo.MapType.STANDARD));
 		}
 		
 		cornerstones.Add(new CornerstoneInfo(
 			cornerstonePrefabs[rand.Next(cornerstonePrefabs.Count)],
-			rand.Next(int.MaxValue), CornerstoneInfo.MapType.BOTTOM));
+			rand.NextRNGSeedingSet(), CornerstoneInfo.MapType.BOTTOM));
 		
 		rand = null;
 		
@@ -182,7 +183,7 @@ public class CornerstoneManager : MonoBehaviour {
 		
 		//set the seed used to create the level we just instantiated before we generate it.
 		ProceduralSeed seedingInfo = cornerstone.GetComponent<ProceduralSeed>();
-		seedingInfo.seed = cornerstones[prefabIndex].rngSeed;
+		seedingInfo.SetSeeds(cornerstones[prefabIndex].rngSeed);
 		
 		//set any necessary floor information before generation.
 		AbstractProceduralFloorInfo floorInfo = cornerstone.GetComponent<AbstractProceduralFloorInfo>();
@@ -234,10 +235,10 @@ public class CornerstoneManager : MonoBehaviour {
 	protected class CornerstoneInfo {
 		public enum MapType { ENTRANCE, BOTTOM, STANDARD };
 		public GameObject cornerstonePrefab;
-		public int rngSeed;
+		public long[] rngSeed;
 		public MapType type;
 		
-		public CornerstoneInfo(GameObject cornerstonePrefab, int rngSeed, MapType type) {
+		public CornerstoneInfo(GameObject cornerstonePrefab, long[] rngSeed, MapType type) {
 			this.cornerstonePrefab = cornerstonePrefab;
 			this.rngSeed = rngSeed;
 			this.type = type;

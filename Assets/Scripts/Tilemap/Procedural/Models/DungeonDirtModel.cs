@@ -14,14 +14,14 @@ public class DungeonDirtModel : IKeyedSpriteSheet {
 	private string nameDirt = "DungeonDirt";
 	private string nameDoodads = "DungeonDoodads";
 	private int numDirtTiles;
-	private System.Random rand;
+	private PRPGRandom rand;
 	
 	/**
 	 * Constructs a new Dungeon Dirt Model.
 	 * Requires the DungeonDirt prefab object,
 	 * and the TileManager's RNG object.
 	 */
-	public DungeonDirtModel(TilePrefabContainer prefabContainer, System.Random rand) {
+	public DungeonDirtModel(TilePrefabContainer prefabContainer, PRPGRandom rand) {
 		dirtPrefab = prefabContainer.GetPrefab(nameDirt);
 		doodadPrefab = prefabContainer.GetPrefab(nameDoodads);
 		

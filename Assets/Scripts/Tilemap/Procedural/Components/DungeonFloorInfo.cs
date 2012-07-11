@@ -23,12 +23,14 @@ public class DungeonFloorInfo : AbstractProceduralFloorInfo {
 	
 	private int mapHeight;
 	private int mapWidth;
-	private System.Random rand;
+	private PRPGRandom rand;
 	
 	#region implemented abstract members of AbstractProceduralFloorInfo
 	public override void GenerateDependentInformation() {
 		ProceduralSeed seedInfo = GetComponent<ProceduralSeed>();
-		rand = new System.Random(int.MaxValue - seedInfo.seed);
+		
+		rand = new PRPGRandom(seedInfo.GetSeedArray());
+		rand.InvertSeeding();
 		
 		hasStairUp = (floorType == FloorType.GENERAL || floorType == FloorType.ENTRANCE);
 		hasStairDown = (floorType == FloorType.GENERAL || floorType == FloorType.BOTTOM);

@@ -15,13 +15,24 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	private int special;
 	private float speed;
 	
+	private string combatGuiString;
+	
 	private AbstractCombatClassModel classModel;
 	
-	public ClassedCombatActor(string name, ActorType type, AbstractCombatClassModel classModel, int experience) {
+	public void Init(string name, ActorType type, AbstractCombatClassModel classModel, int experience) {
 		this.classModel = classModel;
 		this.actorName = name;
 		this.type = type;
 		AddExperience(experience);
+	}
+	
+	public string CombatGUIString {
+		get {
+			return combatGuiString;
+		}
+		set {
+			combatGuiString = value;
+		}
 	}
 	
 	#region IActor implementation
@@ -72,6 +83,12 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	public int Level {
 		get {
 			return level;
+		}
+	}
+	
+	public string ClassCode {
+		get {
+			return classModel.ClassCode;
 		}
 	}
 	#endregion

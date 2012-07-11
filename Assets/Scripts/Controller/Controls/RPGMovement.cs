@@ -90,7 +90,9 @@ public partial class RPGController : MonoBehaviour {
 		if (movementStatus != MovementStatus.ABORTED)
 			transform.localPosition = destination;
 		
-		movementStatus = MovementStatus.STOPPED;
+		//movementStatus = MovementStatus.STOPPED;
+		movementSinceLastCombat++;
+		
 		yield break;
 	}
 	

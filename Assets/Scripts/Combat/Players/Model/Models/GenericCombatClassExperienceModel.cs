@@ -56,13 +56,17 @@ public class GenericCombatClassExperienceModel : AbstractCombatClassModel {
 		level = 0;
 	}
 	
-	#region ICombatClass implementation
+	public static int Exp4Level(int level) {
+		return (int)(13*(System.Math.Pow(level, 3))-13);
+	}
+	
+	#region AbstractCombatClassModel implementation
 	public override void SetLevelByXp(int experience) {
 		level = GetLevelForExp(experience);
 	}
 	
 	public override int GetExpNeededForLevel(int level) {
-		return 13*(level^3)-13;
+		return (int)(13*(System.Math.Pow(level, 3))-13);
 	}
 	
 	public override int GetLevelForExp(int exp) {
@@ -85,6 +89,12 @@ public class GenericCombatClassExperienceModel : AbstractCombatClassModel {
 	public override int Experience {
 		get {
 			return 0;
+		}
+	}
+	
+	public override string ClassCode {
+		get {
+			return "GNC";
 		}
 	}
 	#endregion

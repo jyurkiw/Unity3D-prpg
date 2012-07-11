@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_3_5_2;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_3_5_3;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -44,12 +44,24 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Combat\CombatController.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\CombatRunner.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\CharacterManager.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\ClassedCombatActor.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\IActor.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\IClassModel.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\ICombat.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\Models\AbstractCombatClassModel.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\Models\GenericCombatClassExperienceModel.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\Models\IDataLoader.cs" />
      <Compile Include="Assets\Scripts\Controller\Controls\RPGMovement.cs" />
      <Compile Include="Assets\Scripts\Controller\RPGController.cs" />
+     <Compile Include="Assets\Scripts\Enums\ActorType.cs" />
      <Compile Include="Assets\Scripts\Enums\Direction.cs" />
      <Compile Include="Assets\Scripts\Enums\FloorType.cs" />
      <Compile Include="Assets\Scripts\Enums\MovementStatus.cs" />
      <Compile Include="Assets\Scripts\Enums\TileType.cs" />
+     <Compile Include="Assets\Scripts\RNG\PRPGRandom.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Base\TilemapComponent.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\CornerstoneManager.cs" />
      <Compile Include="Assets\Scripts\Tilemap\Components\DrawManager.cs" />
@@ -87,18 +99,15 @@
      <Compile Include="Assets\TK2DROOT\tk2d\Code\TileMap\tk2dTileMapColliderBuilder.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\TileMap\tk2dTileMapData.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\TileMap\tk2dTileMapMeshBuilder.cs" />
-     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoAnimController.cs" />
-     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoButtonController.cs" />
-     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoReloadController.cs" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\PremulVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\BlendVertexColor.shader" />
-     <None Include="Assets\TK2DROOT\tk2d_demo\multiatlas\source.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitBlendVertexColor.shader" />
-     <None Include="Assets\TK2DROOT\tk2d_demo\demospritecollection\sprites\source.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

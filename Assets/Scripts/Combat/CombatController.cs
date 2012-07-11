@@ -18,16 +18,29 @@ public class CombatController : MonoBehaviour {
 	public CharacterManager characterManager;	///< Character Manager that controls the player's party.
 	public CharacterManager enemyManager;		///< Character Manager that controls the enemies.
 	
+	private CombatRunner combatRunner;	///< Combat Runner used to run combat.
+	private PRPGRandom combatSeeder;	///< RNG used to seed combat.
+	
+	public void Start() {
+		combatRunner = GetComponent<CombatRunner>();
+		combatSeeder = new PRPGRandom(1234L,2567L,34569L,456781L,5698741L);
+	}
+	
 	public CombatController() {
 		combatControlActive = false;
 	}
 	
 	public void ActivateCombatControl() {
 		combatControlActive = true;
+		enemyManager.LoadEnemies(characterManager.AverageLevel, combatSeeder.Next(1, enemyManager.maxCharactersInParty + 1), combatSeeder);
+		combatRunner.InitCombatRunner(characterManager, enemyManager);
 		combatCamera.enabled = combatControlActive;
+		combatRunner.combatGUIActive = true;
 	}
 	
 	private void DeactivateCombatControl() {
+		combatRunner.combatGUIActive = false;
+		combatRunner.DeinitCombatRunner();
 		combatControlActive = false;
 		combatCamera.enabled = combatControlActive;
 	}

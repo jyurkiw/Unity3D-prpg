@@ -11,31 +11,34 @@ using System.Collections.Generic;
 [AddComponentMenu("PRPG/Controllers/RPGController")]
 public partial class RPGController : MonoBehaviour {
 	//public Tilemap tilemap;
-	public bool play;
+	public bool movementControlActive;
 	public CornerstoneManager cornerstoneManager;
+	public Camera mapCamera;
+	public CombatController combatController;
+	public int minimumStepsBetweenCombats;
+	public int maximumStepsBetweenCombats;
+	public float randomCombatPerStepChance;
+	
+	private int movementSinceLastCombat;
+	
+	private PRPGRandom rand;
 	
 	void Start() {
-		play = true;
-		
-		//call all control start sub-methods.
-		MovementStart();
-		
-		//Start up the tilemap.
-		//tilemap.StartTilemapOperations();
-		
-		//start collecting input from the user
-		StartCoroutine(InputHandler());
+		ActivateMapControl();
+		rand = new PRPGRandom(579841L, 547892L, 124957L, 348975L, 34897632125L);
 	}
 	
-//	public void Update() {
+	public void Update() {
+//		if (Input.GetKeyUp(KeyCode.R) && movementControlActive)
+//			ActivateCombatControl();
 //		if (Input.GetKeyDown(KeyCode.Z))
 //			cornerstoneManager.AdvanceOneLevel();
 //		if (Input.GetKeyDown(KeyCode.X))
 //			cornerstoneManager.ReturnOneLevel();
-//	}
+	}
 	
 	private IEnumerator InputHandler() {
-		while(play) {
+		while(movementControlActive) {
 			if (Input.GetKey(KeyCode.W))
 				HandleW();
 			if (Input.GetKey(KeyCode.A))
@@ -45,19 +48,72 @@ public partial class RPGController : MonoBehaviour {
 			if (Input.GetKey(KeyCode.D))
 				HandleD();
 			
+			if (Input.GetKey(KeyCode.Escape))
+				HandleEscape();
+			
 			yield return new WaitForEndOfFrame();
 		}
-		//tilemap.StopTilemapOperations();
-		Application.Quit();
+		
 		yield break;
+	}
+	
+	private IEnumerator CombatHandler() {
+		int moveCheck = 0;
+		
+		do {
+			if (movementSinceLastCombat > moveCheck) {
+				moveCheck++;
+				movementStatus = MovementStatus.STOPPED;
+				
+				if (moveCheck > minimumStepsBetweenCombats && moveCheck < maximumStepsBetweenCombats) {
+					if (rand.NextFloat() < randomCombatPerStepChance) {
+						ActivateCombatControl();
+						yield break;
+					}
+				}
+			}
+			yield return new WaitForEndOfFrame();
+		} while (moveCheck < maximumStepsBetweenCombats);
+		ActivateCombatControl();
+		yield break;
+	}
+	
+	/**
+	 * Activate all map controls.
+	 */
+	public void ActivateMapControl() {
+		movementControlActive = true;
+		mapCamera.enabled = true;
+		
+		//call all control start sub-methods.
+		MovementStart();
+		
+		//start collecting input from the user
+		StartCoroutine(InputHandler());
+		
+		//start checking for combat
+		movementSinceLastCombat = 1;
+		StartCoroutine(CombatHandler());
+	}
+	
+	//Deactivate all map controls
+	private void DeactivateMapControl() {
+		movementControlActive = false;
+		IsProtected = true;
+	}
+	
+	private void ActivateCombatControl() {
+		DeactivateMapControl();
+		mapCamera.enabled = false;
+		combatController.ActivateCombatControl();
 	}
 	
 	/**
 	 * Handle the escape key. Breaks out of the InputHandler.
 	 */
 	private void HandleEscape() {
-		Debug.Log("Escape Pressed");
-		play = false;
+		movementControlActive = false;
+		Application.Quit();
 	}
 	
 	//Movement input

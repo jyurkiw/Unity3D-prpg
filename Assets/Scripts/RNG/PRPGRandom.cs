@@ -1,3 +1,4 @@
+// Algorithm attributed to George Marsaglia
 // *static unsigned long 
 //x=123456789,y=362436069,z=521288629,w=88675123,v=886756453; 
 //      /* replace defaults with five random seed values in calling program */ 
@@ -59,10 +60,11 @@ public class PRPGRandom {
 	 */
 	public double NextDouble() {
 		xorshift();
+		
 		if (rvalue1 >= rvalue2)
-			return rvalue2 / rvalue1;
+			return (double)rvalue2 / (double)rvalue1;
 		else
-			return rvalue1 / rvalue2;
+			return (double)rvalue1 / (double)rvalue2;
 	}
 	
 	public float NextFloat() {

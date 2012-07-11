@@ -14,6 +14,7 @@ public abstract class AbstractCombatClassModel : IClassModel, ICombat {
 	public abstract bool AddExperience(int experience);
 	public abstract int Level { get; }
 	public abstract int Experience { get; }
+	public abstract string ClassCode { get; }
 	#endregion
 
 	#region ICombat implementation

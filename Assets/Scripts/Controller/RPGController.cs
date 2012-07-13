@@ -20,12 +20,13 @@ public partial class RPGController : MonoBehaviour {
 	public float randomCombatPerStepChance;
 	
 	private int movementSinceLastCombat;
+	private int nextCombatStep;
 	
 	private PRPGRandom rand;
 	
 	void Start() {
-		ActivateMapControl();
 		rand = new PRPGRandom(579841L, 547892L, 124957L, 348975L, 34897632125L);
+		ActivateMapControl();
 	}
 	
 	public void Update() {
@@ -58,22 +59,14 @@ public partial class RPGController : MonoBehaviour {
 	}
 	
 	private IEnumerator CombatHandler() {
-		int moveCheck = 0;
+		Debug.Log(rand);
+		//nextCombatStep = rand.Next(minimumStepsBetweenCombats, maximumStepsBetweenCombats + 1);
+		nextCombatStep = 2;
 		
 		do {
-			if (movementSinceLastCombat > moveCheck) {
-				moveCheck++;
-				movementStatus = MovementStatus.STOPPED;
-				
-				if (moveCheck > minimumStepsBetweenCombats && moveCheck < maximumStepsBetweenCombats) {
-					if (rand.NextFloat() < randomCombatPerStepChance) {
-						ActivateCombatControl();
-						yield break;
-					}
-				}
-			}
 			yield return new WaitForEndOfFrame();
-		} while (moveCheck < maximumStepsBetweenCombats);
+		} while(movementSinceLastCombat < nextCombatStep);
+		
 		ActivateCombatControl();
 		yield break;
 	}
@@ -92,7 +85,7 @@ public partial class RPGController : MonoBehaviour {
 		StartCoroutine(InputHandler());
 		
 		//start checking for combat
-		movementSinceLastCombat = 1;
+		movementSinceLastCombat = 0;
 		StartCoroutine(CombatHandler());
 	}
 	

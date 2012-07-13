@@ -221,7 +221,12 @@ public class CornerstoneManager : MonoBehaviour {
 	}
 	
 	protected IEnumerator PlacePlayerInActiveStartPosition() {
-		ProceduralDungeonTileManager tileManager = activeCornerstone.GetComponent<ProceduralDungeonTileManager>();
+		ProceduralDungeonTileManager tileManager = null;
+		
+		while (tileManager == null) {
+			yield return new WaitForEndOfFrame();
+			tileManager = activeCornerstone.GetComponent<ProceduralDungeonTileManager>();
+		}
 		
 		//darken screen here
 		

@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Combat\Players\Model\IActor.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\IClassModel.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\ICombat.cs" />
+     <Compile Include="Assets\Scripts\Combat\Players\Model\Models\AbstractCombatClass.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\Models\AbstractCombatClassModel.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\Models\GenericCombatClassExperienceModel.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\Models\IDataLoader.cs" />

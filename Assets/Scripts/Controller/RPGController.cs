@@ -59,7 +59,6 @@ public partial class RPGController : MonoBehaviour {
 	}
 	
 	private IEnumerator CombatHandler() {
-		Debug.Log(rand);
 		//nextCombatStep = rand.Next(minimumStepsBetweenCombats, maximumStepsBetweenCombats + 1);
 		nextCombatStep = 2;
 		

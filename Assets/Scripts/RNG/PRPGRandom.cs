@@ -12,8 +12,35 @@
  * XORShift PRNG
  * 
  * Only produces positive output.
+ * 
+ * Singleton pattern variation:
+ * 	Singleton must be implicitly instantiated before use.
+ * 	Any attempt to access an un-initialized singleton instance results
+ * 		in an exception.
+ * 	Any attempt to re-initialize the singleton instance will
+ * 		result in an exception.
+ * 
+ * The intent of the singleton variation is for global access
+ * 	to a base RNG for the purposes of generating algorimithic
+ * 	RNGs without prior record of algorithm-run initialization.
  */
 public class PRPGRandom {
+	public static PRPGRandom instance;
+	
+	public static PRPGRandom GetInstance() {
+		if (instance != null) return instance;
+		else throw new System.Exception("Global-base PRPGRandom Number Generator instance has not been initialized.");
+	}
+	
+	public static void InitGlobalBaseSingleton(long a, long b, long c, long d, long e) {
+		if (instance == null) instance = new PRPGRandom(a, b, c, d, e);
+		else throw new System.Exception("Attempt to re-initialize Global-base PRPGRandom Number Generator instance.");
+	}
+	
+	public static bool SingletonInit {
+		get { return instance != null; }
+	}
+	
 	private ulong a, b, c, d, e, f;
 	private ulong rvalue1, rvalue2;
 	

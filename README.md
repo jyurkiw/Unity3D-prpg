@@ -46,3 +46,6 @@ Version: 0.2.1
 - 0.8: Procedural end boss creation and placement.
 -	0.8.1: Your Winner! GUI screen
 - 1.0: Non-generic player classes.
+
+##Generic TODO:
+- Turn the base RNG instance into a type of singleton.

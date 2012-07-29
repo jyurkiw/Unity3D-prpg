@@ -22,10 +22,8 @@ public partial class RPGController : MonoBehaviour {
 	private int movementSinceLastCombat;
 	private int nextCombatStep;
 	
-	private PRPGRandom rand;
-	
 	void Start() {
-		rand = new PRPGRandom(579841L, 547892L, 124957L, 348975L, 34897632125L);
+		PRPGRandom.InitGlobalBaseSingleton(579841L, 547892L, 124957L, 348975L, 34897632125L);
 		ActivateMapControl();
 	}
 	

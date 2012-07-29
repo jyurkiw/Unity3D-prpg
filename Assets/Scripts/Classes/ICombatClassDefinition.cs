@@ -12,4 +12,5 @@ public interface ICombatClassDefinition {
 	int GetDefense(int level);
 	int GetSpecial(int level);
 	float GetSpeed(int level);
+	string GetClassCode();
 }

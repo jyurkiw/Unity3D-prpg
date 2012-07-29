@@ -42,6 +42,7 @@ public class PRPGClassFactory {
 		frame.GetHits = GenericClass.GetInstance().GetHits;
 		frame.GetSpecial = GenericClass.GetInstance().GetSpecial;
 		frame.GetSpeed = GenericClass.GetInstance().GetSpeed;
+		frame.GetClassCode = GenericClass.GetInstance().GetClassCode;
 		
 		return frame;
 	}

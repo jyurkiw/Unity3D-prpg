@@ -5,6 +5,7 @@
  */
 public class ClassFrame {
 	public delegate T ClassSupport<T>(int level);
+	public delegate string ClassCode();
 	
 	public ClassFrame() {}
 	
@@ -14,4 +15,5 @@ public class ClassFrame {
 	public ClassSupport<int> GetDefense;
 	public ClassSupport<int> GetSpecial;
 	public ClassSupport<float> GetSpeed;
+	public ClassCode GetClassCode;
 }

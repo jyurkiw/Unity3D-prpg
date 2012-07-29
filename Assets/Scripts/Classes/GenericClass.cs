@@ -36,6 +36,10 @@ public class GenericClass : ICombatClassDefinition {
 	public float GetSpeed (int level) {
 		return (float)(1.0 + (0.15 * level));
 	}
+	
+	public string GetClassCode () {
+		return "GNC";
+	}
 	#endregion
 	
 }

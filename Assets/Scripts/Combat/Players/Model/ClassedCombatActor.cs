@@ -17,9 +17,9 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	
 	private string combatGuiString;
 	
-	private AbstractCombatClassModel classModel;
+	private ClassFrame classModel;
 	
-	public void Init(string name, ActorType type, AbstractCombatClassModel classModel, int experience) {
+	public void Init(string name, ActorType type, ClassFrame classModel, int experience) {
 		this.classModel = classModel;
 		this.actorName = name;
 		this.type = type;
@@ -56,18 +56,17 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	#endregion
 	
 	#region IClassModel implementation
-	public bool AddExperience(int experience) {
-		this.experience += experience;
-		classModel.SetLevelByXp(this.experience);
+	public bool AddExperience(int addExperience) {
+		experience += addExperience;
 		
-		if (level < classModel.Level) {
-			level = classModel.Level;
-			hits = classModel.Hits;
-			energy = classModel.Energy;
-			attack = classModel.Attack;
-			defense = classModel.Defense;
-			special = classModel.Special;
-			speed = classModel.Speed;
+		if (level < PRPGClassFactory.GetLevel(experience)) {
+			level = PRPGClassFactory.GetLevel(experience);
+			hits = classModel.GetHits(level);
+			energy = classModel.GetEnergy(level);
+			attack = classModel.GetAttack(level);
+			defense = classModel.GetDefense(level);
+			special = classModel.GetSpecial(level);
+			speed = classModel.GetSpeed(level);
 			return true;
 		} else {
 			return false;
@@ -88,7 +87,7 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	
 	public string ClassCode {
 		get {
-			return classModel.ClassCode;
+			return classModel.GetClassCode();
 		}
 	}
 	#endregion
@@ -149,7 +148,7 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	}
 	#endregion
 	
-	public AbstractCombatClassModel ClassModel {
+	public ClassFrame ClassModel {
 		get {
 			return classModel;
 		}
@@ -167,7 +166,7 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	{
 		actorName = "Frank";
 		type = ActorType.PLAYER;
-		classModel = new GenericCombatClassExperienceModel();
+		classModel = PRPGClassFactory.GetInstance().GetGenericClass();
 		AddExperience(3000);
 	}
 

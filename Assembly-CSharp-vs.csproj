@@ -44,6 +44,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Classes\ClassFrame.cs" />
+     <Compile Include="Assets\Scripts\Classes\GenericClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\ICombatClassDefinition.cs" />
+     <Compile Include="Assets\Scripts\Classes\PRPGClassFactory.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatController.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\CombatRunner.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\CharacterManager.cs" />

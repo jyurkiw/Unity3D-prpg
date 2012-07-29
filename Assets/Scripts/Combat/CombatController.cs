@@ -23,7 +23,7 @@ public class CombatController : MonoBehaviour {
 	
 	public void Start() {
 		combatRunner = GetComponent<CombatRunner>();
-		combatSeeder = new PRPGRandom(1234L,2567L,34569L,456781L,5698741L);
+		combatSeeder = new PRPGRandom(PRPGRandom.GetInstance().NextRNGSeedingSet());
 	}
 	
 	public CombatController() {

@@ -10,6 +10,9 @@ public class CombatRunner : MonoBehaviour {
 	private CharacterManager playerParty;
 	private CharacterManager enemyParty;
 	
+	//combat GUI variables
+	
+	
 	//player GUI variables
 	private GUIContent[] playerGUIContent;
 	private Vector2[] playerGUISizes;
@@ -19,6 +22,7 @@ public class CombatRunner : MonoBehaviour {
 	private Rect playerGUIArea;
 	
 	//enemy GUI variables
+	public bool showEnemyGUIInfo = true;
 	private GUIContent[] enemyGUIContent;
 	private Vector2[] enemyGUISizes;
 	private Rect[] enemyGUILocations;
@@ -41,12 +45,14 @@ public class CombatRunner : MonoBehaviour {
 		playerGUILocations = GetGUILocation(playerGUISizes, playerBreakWidth);
 		playerGUIArea = new Rect(playerBreakWidth, Screen.height - playerMaxDimensions.y, Screen.width - 2 * playerBreakWidth, playerMaxDimensions.y);
 		
-		enemyGUIContent = GetContentInfo(enemyParty);
-		enemyGUISizes = GetSizingInfo(enemyGUIContent);
-		enemyMaxDimensions = GetMaxSize(enemyGUISizes);
-		enemyBreakWidth = GetBreakSize(enemyGUISizes, enemyParty.partyCharacters.Length);
-		enemyGUILocations = GetGUILocation(enemyGUISizes, enemyBreakWidth);
-		enemyGUIArea = new Rect(enemyBreakWidth, 0, Screen.width - 2 * enemyBreakWidth, enemyMaxDimensions.y);
+		if (showEnemyGUIInfo) {
+			enemyGUIContent = GetContentInfo(enemyParty);
+			enemyGUISizes = GetSizingInfo(enemyGUIContent);
+			enemyMaxDimensions = GetMaxSize(enemyGUISizes);
+			enemyBreakWidth = GetBreakSize(enemyGUISizes, enemyParty.partyCharacters.Length);
+			enemyGUILocations = GetGUILocation(enemyGUISizes, enemyBreakWidth);
+			enemyGUIArea = new Rect(enemyBreakWidth, 0, Screen.width - 2 * enemyBreakWidth, enemyMaxDimensions.y);
+		}
 	}
 	
 	public void DeinitCombatRunner() {
@@ -126,12 +132,14 @@ public class CombatRunner : MonoBehaviour {
 	public void OnGUI() {
 		if (combatGUIActive) {
 			//draw enemy stat boxes
-			enemyGUIContent = GetContentInfo(enemyParty);
-			DrawBoxGroup(playerGUIContent, playerGUILocations, playerGUIArea);
+			if (showEnemyGUIInfo) {
+				enemyGUIContent = GetContentInfo(enemyParty);
+				DrawBoxGroup(enemyGUIContent, enemyGUILocations, enemyGUIArea);
+			}
 			
 			//draw player stat boxes
 			playerGUIContent = GetContentInfo(playerParty);
-			DrawBoxGroup(enemyGUIContent, enemyGUILocations, enemyGUIArea);
+			DrawBoxGroup(playerGUIContent, playerGUILocations, playerGUIArea);
 			
 			//draw instructions
 			GUIContent instructionlabel = new GUIContent("Press 't' to exit combat.");

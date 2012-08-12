@@ -85,6 +85,7 @@ public class Frame : IGUI {
 	public void Init() {
 		Vector2 dim, pos = Vector2.zero, max = Vector2.zero;
 		GUIContent content;
+		processedItems.Clear();
 		
 		foreach(string item in items) {
 			content = new GUIContent(item);

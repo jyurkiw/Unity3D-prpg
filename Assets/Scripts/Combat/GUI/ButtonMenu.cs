@@ -7,7 +7,26 @@ using System.Collections.Generic;
 public class ButtonMenu : Frame {
 	public delegate void GUIButtonAction();
 	
+	protected bool named;
 	protected List<GUIButtonAction> actionList;
+	
+	public string Name {
+		get {
+			if (named)
+				return items[0];
+			else
+				return "";
+		}
+		set {
+			if (named)
+				items[0] = value;
+			else {
+				items.Insert(0, value);
+				actionList.Insert(0, Dummy);
+				named = true;
+			}
+		}
+	}
 	
 	/**
 	 * Create a button menu.
@@ -16,7 +35,19 @@ public class ButtonMenu : Frame {
 	 * @param float The frame's y position.
 	 */
 	public ButtonMenu(GUIStyle frameGUIStyle, float x, float y) : base(frameGUIStyle, x, y) {
+		named = false;
 		actionList = new List<GUIButtonAction>();
+	}
+	
+	public ButtonMenu(GUIStyle frameGUIStyle, float x, float y, string menuName) : base(frameGUIStyle, x, y) {
+		named = true;
+		actionList = new List<GUIButtonAction>();
+		AddFrameItem(menuName, Dummy);
+	}
+	
+	//Hide the base AddFrameItem method
+	protected new void AddFrameItem(string item) {
+		base.AddFrameItem(item);
 	}
 	
 	/**
@@ -34,7 +65,13 @@ public class ButtonMenu : Frame {
 	 * @return bool True if successful, false otherwise.
 	 */
 	public new bool RemoveFrameItem(string item) {
-		actionList.RemoveAt(items.IndexOf(item));
+		int index = items.IndexOf(item);
+		actionList.RemoveAt(index);
+		
+		if (index == 0 && named) {
+			named = false;
+		}
+		
 		return base.RemoveFrameItem(item);
 	}
 	
@@ -44,10 +81,19 @@ public class ButtonMenu : Frame {
 		
 		GUI.Box(frameBoundaries, new GUIContent());
 		GUI.BeginGroup(frameBoundaries, new GUIContent());
-		for(int x = 0; x < processedItems.Count; x++)
-			if(GUI.Button(processedItems[x].rect, processedItems[x].content))
-				actionList[x]();
+		for(int x = 0; x < processedItems.Count; x++) {
+			if (actionList[x] != Dummy) {
+				if(GUI.Button(processedItems[x].rect, processedItems[x].content)) {
+					actionList[x]();
+				}
+			
+			} else {
+				GUI.Label(processedItems[x].rect, processedItems[x].content);
+			}
+		}
 		GUI.EndGroup();
 	}
 	#endregion
+	
+	protected void Dummy() {}
 }

@@ -7,20 +7,13 @@ using System.Collections.Generic;
 public class FrameList : IGUI {
 	public FrameOrientation orientation; //< Orientation of the frames. Default: VERTICAL.
 	public GUIStyle frameListGUIStyle;
-	public Vector2 framePosition;
 	
 	public float framePadding; //< Padding between frames.
 	
+	protected Vector2 framePosition;
 	protected List<Frame> items;
 	protected Rect listBoundaries;
 	protected bool initialized;
-	
-	/**
-	 * Used to override the automatically generated Frame Boundaries value.
-	 */
-	public Rect BoundaryOverride {
-		set { listBoundaries = value; }
-	}
 	
 	/*
 	 * Read-only: Frame boundary rect.
@@ -28,6 +21,19 @@ public class FrameList : IGUI {
 	 */
 	public Rect Boundary {
 		get { return listBoundaries; }
+	}
+	
+	/**
+	 * The position of the list.
+	 */
+	public Vector2 Position {
+		get {
+			return Position;
+		}
+		set {
+			initialized = false;
+			framePosition = value;
+		}
 	}
 	
 	/**
@@ -42,6 +48,7 @@ public class FrameList : IGUI {
 		framePosition = new Vector2(x, y);
 		
 		items = new List<Frame>();
+		listBoundaries = new Rect(x, y, 0, 0);
 		initialized = false;
 	}
 	
@@ -80,10 +87,15 @@ public class FrameList : IGUI {
 			frame.Init();
 			frame.Position = new Vector2(currx, curry);
 			
-			if (orientation == FrameOrientation.VERTICAL)
+			if (orientation == FrameOrientation.VERTICAL) {
 				curry += frame.Boundary.height + framePadding;
-			else
+				listBoundaries.height += frame.Boundary.height + framePadding;
+				listBoundaries.width = Mathf.Max(listBoundaries.width, frame.Boundary.width);
+			} else {
 				currx += frame.Boundary.width + framePadding;
+				listBoundaries.height = Mathf.Max(listBoundaries.height, frame.Boundary.height);
+				listBoundaries.width += frame.Boundary.width + framePadding;
+			}
 		}
 		
 		initialized = true;
@@ -95,7 +107,11 @@ public class FrameList : IGUI {
 			Init();
 		
 		foreach(Frame frame in items) {
-			frame.Draw();
+			if (frame is ButtonMenu) {
+				ButtonMenu buttonMenu = (ButtonMenu)frame;
+				buttonMenu.Draw();
+			} else
+				frame.Draw();
 		}
 	}
 	#endregion

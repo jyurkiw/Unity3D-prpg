@@ -15,8 +15,6 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	private int special;
 	private float speed;
 	
-	private string combatGuiString;
-	
 	private ClassFrame classModel;
 	
 	public void Init(string name, ActorType type, ClassFrame classModel, int experience) {
@@ -24,15 +22,6 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 		this.actorName = name;
 		this.type = type;
 		AddExperience(experience);
-	}
-	
-	public string CombatGUIString {
-		get {
-			return combatGuiString;
-		}
-		set {
-			combatGuiString = value;
-		}
 	}
 	
 	#region IActor implementation

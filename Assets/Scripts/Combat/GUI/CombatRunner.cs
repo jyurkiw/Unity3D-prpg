@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 [AddComponentMenu("PRPG/Combat/Combat Runner")]
 public class CombatRunner : MonoBehaviour {
-	public bool combatGUIActive = false;	//< Is the combat GUI active? Setting true displays the GUI.
-	public GUIStyle combatGUIStyle;			//< Current GUI style for the combat GUI
+	public bool combatGUIActive = false;	///< Is the combat GUI active? Setting true displays the GUI.
+	public GUIStyle combatGUIStyle;			///< Current GUI style for the combat GUI
 	
 	private CharacterManager playerParty;
 	private CharacterManager enemyParty;
 	
 	//combat GUI variables
-	
+	private Vector2 combatMenuDimensions;
 	
 	//player GUI variables
 	private GUIContent[] playerGUIContent;
@@ -29,6 +29,12 @@ public class CombatRunner : MonoBehaviour {
 	private Vector2 enemyMaxDimensions;
 	private float enemyBreakWidth;
 	private Rect enemyGUIArea;
+	
+	ActorFrame testFrame1;
+	ActorFrame testFrame2;
+	ActorFrame testFrame3;
+	ActorFrame testFrame4;
+	FrameList testFrameList;
 	
 	/**
 	 * Calculate the constants needed to populate the screen.
@@ -53,6 +59,19 @@ public class CombatRunner : MonoBehaviour {
 			enemyGUILocations = GetGUILocation(enemyGUISizes, enemyBreakWidth);
 			enemyGUIArea = new Rect(enemyBreakWidth, 0, Screen.width - 2 * enemyBreakWidth, enemyMaxDimensions.y);
 		}
+		
+		//FRAME TEST CODE
+		testFrame1 = new ActorFrame(combatGUIStyle, 100, 100, playerParty.partyCharacters[0]);
+		testFrame2 = new ActorFrame(combatGUIStyle, 100, 100, playerParty.partyCharacters[1]);
+		testFrame3 = new ActorFrame(combatGUIStyle, 100, 100, playerParty.partyCharacters[2]);
+		testFrame4 = new ActorFrame(combatGUIStyle, 100, 100, playerParty.partyCharacters[3]);
+		
+		testFrameList = new FrameList(combatGUIStyle, 0, 100);
+		testFrameList.orientation = FrameOrientation.HORIZONTAL;
+		testFrameList.AddFrame(testFrame1);
+		testFrameList.AddFrame(testFrame2);
+		testFrameList.AddFrame(testFrame3);
+		testFrameList.AddFrame(testFrame4);
 	}
 	
 	public void DeinitCombatRunner() {
@@ -146,6 +165,8 @@ public class CombatRunner : MonoBehaviour {
 			Vector2 size = combatGUIStyle.CalcSize(instructionlabel);
 			Rect labelarea = new Rect(Screen.width / 2 - size.x / 2, Screen.height / 2 - size.y / 2, size.x, size.y);
 			GUI.Label(labelarea, instructionlabel);
+			
+			testFrameList.Draw();
 		}
 	}
 	

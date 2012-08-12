@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_3_5_3;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_3_5_5;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -49,7 +49,12 @@
      <Compile Include="Assets\Scripts\Classes\ICombatClassDefinition.cs" />
      <Compile Include="Assets\Scripts\Classes\PRPGClassFactory.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatController.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\ActorFrame.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\ButtonMenu.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\CombatRunner.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\Frame.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\FrameList.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\IGUI.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\CharacterManager.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\ClassedCombatActor.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\IActor.cs" />
@@ -61,6 +66,7 @@
      <Compile Include="Assets\Scripts\Enums\ActorType.cs" />
      <Compile Include="Assets\Scripts\Enums\Direction.cs" />
      <Compile Include="Assets\Scripts\Enums\FloorType.cs" />
+     <Compile Include="Assets\Scripts\Enums\FrameOrientation.cs" />
      <Compile Include="Assets\Scripts\Enums\MovementStatus.cs" />
      <Compile Include="Assets\Scripts\Enums\TileType.cs" />
      <Compile Include="Assets\Scripts\RNG\PRPGRandom.cs" />

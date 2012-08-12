@@ -11,6 +11,7 @@ public class CombatRunner : MonoBehaviour {
 	
 	//GUI objects
 	private FrameList playerDisplay;
+	private Frame enemyList;
 	
 	/**
 	 * Initialize the combat runner for use.
@@ -34,12 +35,21 @@ public class CombatRunner : MonoBehaviour {
 		
 		playerDisplay.AddFrame(combatControlPanel);
 		
+		//create frames for the players and add them to the frame list
 		foreach(ClassedCombatActor actor in playerParty.partyCharacters) {
 			playerDisplay.AddFrame(new ActorFrame(combatGUIStyle, 0, 0, actor));
 		}
 		
 		playerDisplay.Init();
 		playerDisplay.Position = new Vector2((Screen.width - playerDisplay.Boundary.width) / 2.0f, (Screen.height - playerDisplay.Boundary.height - 30.0f));
+		
+		//create the enemy list
+		enemyList = new Frame(combatGUIStyle, 10, 10);
+		
+		//add all enemy names to the enemy list
+		foreach(ClassedCombatActor actor in enemyParty.partyCharacters) {
+			enemyList.AddFrameItem(actor.Name);
+		}
 	}
 	
 	public void temp() {
@@ -54,6 +64,7 @@ public class CombatRunner : MonoBehaviour {
 	public void OnGUI() {
 		if (combatGUIActive) {
 			playerDisplay.Draw();
+			enemyList.Draw();
 		}
 	}
 	

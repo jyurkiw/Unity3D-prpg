@@ -66,12 +66,6 @@ public class CombatRunner : MonoBehaviour {
 		combatLogDimensions.width = Screen.width - combatLogDimensions.x;
 		combatLog = new FixedLineTextArea(combatLogGUIStyle, combatLogDimensions);
 		combatLog.DisplayLines = 12;
-		
-		//TEST CODE
-		foreach(ClassedCombatActor actor in enemyParty.partyCharacters) {
-			combatLog.AddLine("A wild " + actor.Name + " appears!");
-		}
-		combatLog.AddLine("FIGHT!");
 	}
 	
 	public void temp() {
@@ -91,5 +85,9 @@ public class CombatRunner : MonoBehaviour {
 		}
 	}
 	
-	
+	private void IntroduceEnemies() {
+		foreach(ClassedCombatActor actor in enemyParty.partyCharacters) {
+			combatLog.AddLine("A " + actor.Name + " appears!");
+		}
+	}
 }

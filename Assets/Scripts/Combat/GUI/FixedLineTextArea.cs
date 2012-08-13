@@ -106,7 +106,7 @@ public class FixedLineTextArea : IGUI {
 	 */
 	private GUIContent DisplayContent {
 		get {
-			if (changed) {
+			if (changed && textList.Count > 0) {
 				PruneDisplayLines();
 				string text = textList[0].text;
 				for (int x = 1; x < textList.Count; x++)

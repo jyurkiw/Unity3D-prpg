@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\Classes\GenericClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ICombatClassDefinition.cs" />
      <Compile Include="Assets\Scripts\Classes\PRPGClassFactory.cs" />
+     <Compile Include="Assets\Scripts\Combat\CharacterManager.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatController.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\ActorFrame.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\ButtonMenu.cs" />
@@ -56,7 +57,7 @@
      <Compile Include="Assets\Scripts\Combat\GUI\Frame.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\FrameList.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\IGUI.cs" />
-     <Compile Include="Assets\Scripts\Combat\Players\CharacterManager.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\SpriteField.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\ClassedCombatActor.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\IActor.cs" />
      <Compile Include="Assets\Scripts\Combat\Players\Model\IClassModel.cs" />

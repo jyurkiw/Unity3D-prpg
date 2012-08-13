@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Combat\GUI\ActorFrame.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\ButtonMenu.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\CombatRunner.cs" />
+     <Compile Include="Assets\Scripts\Combat\GUI\FixedLineTextArea.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\Frame.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\FrameList.cs" />
      <Compile Include="Assets\Scripts\Combat\GUI\IGUI.cs" />

@@ -112,7 +112,7 @@ public class Frame : IGUI {
 		GUI.Box(frameBoundaries, new GUIContent());
 		GUI.BeginGroup(frameBoundaries, new GUIContent());
 		foreach(ContentRectPair pair in processedItems)
-			GUI.Label(pair.rect, pair.content);
+			GUI.Label(pair.rect, pair.content, frameGUIStyle);
 		GUI.EndGroup();
 	}
 	#endregion

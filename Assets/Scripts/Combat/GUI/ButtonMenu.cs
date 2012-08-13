@@ -83,12 +83,12 @@ public class ButtonMenu : Frame {
 		GUI.BeginGroup(frameBoundaries, new GUIContent());
 		for(int x = 0; x < processedItems.Count; x++) {
 			if (actionList[x] != Dummy) {
-				if(GUI.Button(processedItems[x].rect, processedItems[x].content)) {
+				if(GUI.Button(processedItems[x].rect, processedItems[x].content, frameGUIStyle)) {
 					actionList[x]();
 				}
 			
 			} else {
-				GUI.Label(processedItems[x].rect, processedItems[x].content);
+				GUI.Label(processedItems[x].rect, processedItems[x].content, frameGUIStyle);
 			}
 		}
 		GUI.EndGroup();

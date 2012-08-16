@@ -17,6 +17,31 @@ public class ClassedCombatActor : ScriptableObject, IActor, IClassModel, ICombat
 	
 	private ClassFrame classModel;
 	
+	#region Sprite logic *TEMPORARY*
+	//has sprite should be true if the actor has a sprite
+	//sprite name should have the name of the sprite if hasSprite is true
+	//sprite size should have the size of the monster sprite
+	//all values should be loaded from some sort of data source
+	private bool hasSprite;
+	private string spriteName;
+	private MonsterSize spriteSize;
+	
+	public bool HasSprite {
+		get { return hasSprite; }
+		set { hasSprite = value; }
+	}
+	
+	public string SpriteName {
+		get { return spriteName; }
+		set { spriteName = value; }
+	}
+	
+	public MonsterSize SpriteSize {
+		get { return spriteSize; }
+		set { spriteSize = value; }
+	}
+	#endregion
+	
 	public void Init(string name, ActorType type, ClassFrame classModel, int experience) {
 		this.classModel = classModel;
 		this.actorName = name;

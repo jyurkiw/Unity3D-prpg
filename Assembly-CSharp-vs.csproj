@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\Enums\Direction.cs" />
      <Compile Include="Assets\Scripts\Enums\FloorType.cs" />
      <Compile Include="Assets\Scripts\Enums\FrameOrientation.cs" />
+     <Compile Include="Assets\Scripts\Enums\MonsterSize.cs" />
      <Compile Include="Assets\Scripts\Enums\MovementStatus.cs" />
      <Compile Include="Assets\Scripts\Enums\TileType.cs" />
      <Compile Include="Assets\Scripts\RNG\PRPGRandom.cs" />

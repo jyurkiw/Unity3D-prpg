@@ -2,7 +2,8 @@
 Procedural 2D Roleplaying Game in Unity 3D
 
 ##Requirements:
-- 2D Toolkit from the Unity 3D asset store
+- 2D Toolkit package from the Unity 3D asset store
+- NGUI package from the Unity 3D asset store (free version works as well, just not for distrobution)
 
 ##Goal:
 The goal of this game is to create a Dragon Warrior 3 style 2D RPG procedurally.
@@ -48,4 +49,4 @@ Version: 0.2.1
 - 1.0: Non-generic player classes.
 
 ##Generic TODO:
-- Turn the base RNG instance into a type of singleton.
+

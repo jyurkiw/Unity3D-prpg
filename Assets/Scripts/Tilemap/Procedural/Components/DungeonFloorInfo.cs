@@ -65,25 +65,25 @@ public class DungeonFloorInfo : AbstractProceduralFloorInfo {
 	}
 	
 	private Vector2 GenRandomStartPointInWall() {
-		Direction direction = (Direction)rand.Next(4);
+		MovementDirection direction = (MovementDirection)rand.Next(4);
 		float xf, yf;
 		
-		if (direction == Direction.NORTH) {
+		if (direction == MovementDirection.NORTH) {
 			xf = (float)rand.Next(1, mapWidth - 1);
 			yf = 0;
-			direction = Direction.SOUTH;
-		} else if (direction == Direction.SOUTH) {
+			direction = MovementDirection.SOUTH;
+		} else if (direction == MovementDirection.SOUTH) {
 			xf = (float)rand.Next(1, mapWidth - 1);
 			yf = (float)mapHeight - 1;
-			direction = Direction.NORTH;
-		} else if (direction == Direction.WEST) {
+			direction = MovementDirection.NORTH;
+		} else if (direction == MovementDirection.WEST) {
 			xf = 0;
 			yf = (float)rand.Next(1, mapHeight - 1);
-			direction = Direction.EAST;
+			direction = MovementDirection.EAST;
 		} else {
 			xf = (float)mapWidth - 1;
 			yf = (float)rand.Next(1, mapHeight - 1);
-			direction = Direction.WEST;
+			direction = MovementDirection.WEST;
 		}
 		
 		return new Vector2(xf, yf);

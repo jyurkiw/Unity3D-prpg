@@ -5,7 +5,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	public float minInnerSquares;	///< Float representing the proportion of squares that should be left walls.
 	public float sameDirectionBias; ///< Float representing the increased tendency to go in the same direction as the previous step.
 	
-	private Direction direction;
+	private MovementDirection direction;
 	
 	/**
 	 * Floor grid. Read like bool[x][y] to keep things simple.
@@ -137,7 +137,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	 * If number greater than or equal to 75, return old direction (biased direction selected)
 	 * If number below 75, figure out turn direction and return new direction.
 	 */
-	private Direction NextBiasedDirection {
+	private MovementDirection NextBiasedDirection {
 		get {
 			int directionTotal = 100 + (int)(25 * sameDirectionBias);
 			int rDirectionValue = rand.Next(directionTotal);
@@ -157,11 +157,11 @@ public partial class ProceduralDungeonTileManager : TileManager {
 				directionEnumVal -= 4;
 			}
 			
-			return (Direction)directionEnumVal;
+			return (MovementDirection)directionEnumVal;
 		}
 	}
 	
-	private Direction NewDirectioin {
+	private MovementDirection NewDirectioin {
 		get {
 			int directionTotal = 75;
 			int rDirectionValue = rand.Next(directionTotal);
@@ -179,7 +179,7 @@ public partial class ProceduralDungeonTileManager : TileManager {
 				directionEnumVal -= 4;
 			}
 			
-			return (Direction)directionEnumVal;
+			return (MovementDirection)directionEnumVal;
 		}
 	}
 	
@@ -189,11 +189,11 @@ public partial class ProceduralDungeonTileManager : TileManager {
 	
 	private Vector2 DestinationOffset {
 		get {
-			if (direction == Direction.NORTH) {
+			if (direction == MovementDirection.NORTH) {
 				return new Vector2(0, -1.0f);
-			} else if (direction == Direction.SOUTH) {
+			} else if (direction == MovementDirection.SOUTH) {
 				return new Vector2(0, 1.0f);
-			} else if (direction == Direction.EAST) {
+			} else if (direction == MovementDirection.EAST) {
 				return new Vector2(1.0f, 0);
 			} else {
 				return new Vector2(-1.0f, 0);

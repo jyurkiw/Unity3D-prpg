@@ -46,8 +46,18 @@ public class CombatController : MonoBehaviour {
 	}
 	
 	public void Update() {
-		if (Input.GetKeyUp(KeyCode.T) && combatControlActive) {
-			ActivateMapControl();
+		if (combatControlActive) {
+			if (Input.GetKeyUp(KeyCode.T)) {
+				ActivateMapControl();
+			}
+			if (Input.GetKeyUp(KeyCode.F)) {
+				combatRunner.TogglePlayerUIPanels();
+				combatRunner.ToggleCombatLog();
+			}
+			if (Input.GetKeyUp(KeyCode.G)) {
+				Debug.Log("Adding Test! to log");
+				combatRunner.combatLog.Add("test!");
+			}
 		}
 	}
 	

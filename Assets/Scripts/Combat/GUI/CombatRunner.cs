@@ -1,95 +1,65 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
+/**
+ * Run combat between a player party, and an enemy party.
+ */
 [AddComponentMenu("PRPG/Combat/Combat Runner")]
 public class CombatRunner : MonoBehaviour {
 	public bool combatGUIActive = false;	///< Is the combat GUI active? Setting true displays the GUI.
-	public GUIStyle combatGUIStyle;			///< Current GUI style for the combat GUI.
-	public GUIStyle combatLogGUIStyle;		///< Current GUI style for the combat log GUI.
+	public CharacterManager playerParty;
+	public CharacterManager enemyParty;
 	
-	private CharacterManager playerParty;
-	private CharacterManager enemyParty;
-	
-	//GUI objects
-	private FrameList playerDisplay;
-	private Frame enemyList;
-	private FixedLineTextArea combatLog;
+	public PlayerPanel[] playerUIPanels;	///< UI elements for player stats. Right now, we're working with four players.
+	public UITextList combatLog;
 	
 	/**
 	 * Initialize the combat runner for use.
 	 * Should be called before every combat.
-	 * @param CharacterManager The player party data.
-	 * @param CharacterManager The enemy party data.
+	 * @param CharacterManager Player party involved in combat.
+	 * @param CharacterManager Enemy party involved in combat.
 	 */
 	public void InitCombatRunner(CharacterManager playerParty, CharacterManager enemyParty) {
 		this.playerParty = playerParty;
 		this.enemyParty = enemyParty;
-		playerDisplay = new FrameList(combatGUIStyle, 0, 0);
-		playerDisplay.orientation = FrameOrientation.HORIZONTAL;
-		playerDisplay.framePadding = 10.0f;
 		
-		//create the combat control panel.
-		ButtonMenu combatControlPanel = new ButtonMenu(combatGUIStyle, 0, 0, "Action Menu");
-		combatControlPanel.AddFrameItem("Attack", temp);
-		combatControlPanel.AddFrameItem("Spell", temp);
-		combatControlPanel.AddFrameItem("Defend", temp);
-		combatControlPanel.AddFrameItem("Item", temp);
-		
-		playerDisplay.AddFrame(combatControlPanel);
-		
-		//create frames for the players and add them to the frame list
-		foreach(ClassedCombatActor actor in playerParty.partyCharacters) {
-			playerDisplay.AddFrame(new ActorFrame(combatGUIStyle, 0, 0, actor));
+		for(int x = 0; x < 4; x++) {
+			playerUIPanels[x].Init(playerParty.partyCharacters[x]);
 		}
 		
-		playerDisplay.Init();
-		playerDisplay.Position = new Vector2((Screen.width - playerDisplay.Boundary.width) / 2.0f, (Screen.height - playerDisplay.Boundary.height - 30.0f));
-		
-		//create the enemy list
-		enemyList = new Frame(combatGUIStyle, 10, 10);
-		
-		//add all enemy names to the enemy list
-		foreach(ClassedCombatActor actor in enemyParty.partyCharacters) {
-			enemyList.AddFrameItem(actor.Name);
-		}
-		
-		//init the enemy list so we can size the combat log
-		enemyList.Init();
-		
-		//initialize the combat log (10 px margin between enemy list and combat log)
-		//combat log is 12 lines high
-		float combatLogMargin = 10.0f;
-		float combatLogLines = 12.0f;
-		Rect combatLogDimensions = new Rect(0, 0, 0, 0);
-		combatLogDimensions.x = enemyList.Boundary.x + enemyList.Boundary.width + combatLogMargin;
-		combatLogDimensions.y = enemyList.Boundary.y;
-		combatLogDimensions.width = Screen.width - combatLogDimensions.x;
-		combatLog = new FixedLineTextArea(combatLogGUIStyle, combatLogDimensions);
-		combatLog.DisplayLines = 12;
-		
-		//TEST CODE
-		foreach(ClassedCombatActor actor in enemyParty.partyCharacters) {
-			combatLog.AddLine("A wild " + actor.Name + " appears!");
-		}
-		combatLog.AddLine("FIGHT!");
+		combatLog.Add("A wild derp appears!");
+		combatLog.Add("This is a test!");
 	}
 	
 	public void temp() {
 		Debug.Log("A button was pressed");
 	}
 	
+	/**
+	 * Prep the combat runner for the next combat.
+	 */
 	public void DeinitCombatRunner() {
 		playerParty = null;
 		enemyParty = null;
 	}
 	
-	public void OnGUI() {
-		if (combatGUIActive) {
-			playerDisplay.Draw();
-			enemyList.Draw();
-			combatLog.Draw();
+	/**
+	 * Combat Coroutine
+	 */
+	public IEnumerator OnCombat() {
+		Debug.Log("Combat has occurred.");
+		yield break;
+	}
+	
+	public void TogglePlayerUIPanels() {
+		Debug.Log("Toggling Player UI Panels");
+		foreach(PlayerPanel panel in playerUIPanels) {
+			panel.gameObject.active = !panel.gameObject.active;
 		}
 	}
 	
-	
+	public void ToggleCombatLog() {
+		combatLog.gameObject.active = !combatLog.gameObject.active;
+	}
 }
